@@ -35,7 +35,8 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
 	// transform into uv coords
 	auto cb = g.getClipBounds();
-	auto transform = AffineTransform().scaled(cb.getHeight()/2, cb.getHeight() / -2).translated(cb.getWidth() / 2, cb.getHeight() / 2);
+	//TODO parameterize zoom
+	auto transform = AffineTransform().scaled(cb.getHeight()/4, cb.getHeight() / -4).translated(cb.getWidth() / 2, cb.getHeight() / 2);
 	g.addTransform(transform);
 	
 	DrawGridlines(g);
@@ -50,20 +51,21 @@ void PanningTheoryAudioProcessorEditor::DrawGridlines(juce::Graphics & g)
 	float majorGridLineThickness = .005f;
 	float minorGridLineThickness = .001f;
 
-	auto horizontalLine = Line<float>(-1, 0, 1, 0);
-	auto verticalLine = Line<float>(0, -1, 0, 1);
+	float width = 3; //TODO base on zoom
+	auto horizontalLine = Line<float>(-width, 0, width, 0);
+	auto verticalLine = Line<float>(0, -width, 0, width);
 
-	int numberOfMajorLines = 4;
-	int numberOfMinorLines = 4;
+	int numberOfMajorLines = 5; //TODO base on zoom
+	int numberOfMinorLines = 5;
+
+	float majorGridStep = 0.5f;
+	float minorGridStep = majorGridStep / numberOfMinorLines;
 
 	// Draw the gridlines at the origin
 	g.drawLine(horizontalLine, majorGridLineThickness);
 	g.drawLine(verticalLine, majorGridLineThickness);
 
-	float majorGridStep = 0.5f;
-	float minorGridStep = majorGridStep / numberOfMinorLines;
-
-	for (int i = 0; i < numberOfMajorLines - 2; i++) {
+	for (int i = 0; i < numberOfMajorLines; i++) {
 		for (int j = 0; j < 2; j++) {
 			for (int k = 0; k < numberOfMinorLines; k++) {
 				// shift the lines by the minor grid step
