@@ -18,7 +18,7 @@
 /**
 */
 class PanningTheoryAudioProcessorEditor  : public AudioProcessorEditor,
-	public Slider::Listener
+	public Slider::Listener, private Timer
 {
 public:
     PanningTheoryAudioProcessorEditor (PanningTheoryAudioProcessor&);
@@ -30,7 +30,7 @@ public:
     void resized() override;
 
 	void sliderValueChanged(Slider * slider);
-
+	void timerCallback() override;
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
@@ -38,6 +38,7 @@ private:
 	Gridlines gridlines_;
 	Slider zoomSlider_;
 	Slider panAngleSlider_;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };

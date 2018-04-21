@@ -36,6 +36,8 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	panAngleSlider_.addListener(this);
 
 	addAndMakeVisible(gridlines_);
+
+	startTimer(30);
 }
 
 PanningTheoryAudioProcessorEditor::~PanningTheoryAudioProcessorEditor()
@@ -67,7 +69,12 @@ void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
 		gridlines_.repaint();
 	}
 	if (slider == &panAngleSlider_) {
-		gridlines_.panAngle_ = juce::degreesToRadians(panAngleSlider_.getValue());		
+		gridlines_.panAngle_ = degreesToRadians(panAngleSlider_.getValue());		
 		gridlines_.repaint();
 	}
+}
+
+void PanningTheoryAudioProcessorEditor::timerCallback()
+{
+	panAngleSlider_.setValue(radiansToDegrees(gridlines_.panAngle_), dontSendNotification);
 }

@@ -34,6 +34,9 @@ void Gridlines::mouseDrag(const MouseEvent& e)
 	pointf.applyTransform(uvTransform_.inverted());
 	dragPoint_ = Point<float>(pointf.x, pointf.y);
 	panAngle_ = atan2f(pointf.y,pointf.x);
+	// clamp the angle
+	panAngle_ = juce::jmax(panAngle_,float_Pi*-0.5f);
+	panAngle_ = juce::jmin(panAngle_, float_Pi*0.5f);
 	repaint();
 }
 
@@ -53,10 +56,11 @@ void Gridlines::paint (Graphics& g)
 	uvTransform_ = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
 	// center the origin
 	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
-
 	g.addTransform(uvTransform_);
-	g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
+
+	//g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
 	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .05, .2f, .2f);
+	
 	DrawGridlines(g, zoomRatio_);	
 }
 
