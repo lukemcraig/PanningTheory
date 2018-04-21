@@ -25,30 +25,24 @@ Gridlines::~Gridlines()
 
 void Gridlines::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
 
     g.setColour (Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
     g.setColour (Colours::white);
-	// transform into uv coords
+
 	auto cb = g.getClipBounds();
-	float zoomRatio = 6;
-	float zoomFactor = 1.0f / zoomRatio;
+	float zoomFactor = 1.0f / zoomRatio_;
+
+	// transform into uv coords
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
 	auto transform = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
 	// center the origin
 	transform = transform.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
 	g.addTransform(transform);
 
-	DrawGridlines(g, zoomRatio);
+	DrawGridlines(g, zoomRatio_);
 
 	g.drawArrow(Line<float>(0, 0, 1, 1), .05, .2f, .2f);
 }

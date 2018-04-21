@@ -26,6 +26,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	zoomSlider_.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 	zoomSlider_.setValue(6);	
 	addAndMakeVisible(zoomSlider_);
+	zoomSlider_.addListener(this);
 
 	addAndMakeVisible(gridlines_);
 }
@@ -41,10 +42,6 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
     g.setColour (Colours::white);
-	return;
-	// transform into uv coords
-	auto cb = g.getClipBounds();
-	float zoomRatio = zoomSlider_.getValue();
 }
 
 void PanningTheoryAudioProcessorEditor::resized()
@@ -53,4 +50,13 @@ void PanningTheoryAudioProcessorEditor::resized()
     // subcomponents in your editor..
 	zoomSlider_.setBounds(0,0,100,400);
 	gridlines_.setBounds(110, 0, 600, 600);
+}
+
+void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
+{
+	if (slider == &zoomSlider_) {
+		DBG(zoomSlider_.getValue());
+		gridlines_.zoomRatio_ = zoomSlider_.getValue();
+		gridlines_.repaint();
+	}
 }

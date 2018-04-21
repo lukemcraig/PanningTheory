@@ -17,7 +17,8 @@
 //==============================================================================
 /**
 */
-class PanningTheoryAudioProcessorEditor  : public AudioProcessorEditor
+class PanningTheoryAudioProcessorEditor  : public AudioProcessorEditor,
+	public Slider::Listener
 {
 public:
     PanningTheoryAudioProcessorEditor (PanningTheoryAudioProcessor&);
@@ -27,6 +28,8 @@ public:
     void paint (Graphics&) override;
 	
     void resized() override;
+
+	void sliderValueChanged(Slider * slider);
 
 private:
     // This reference is provided as a quick way for your editor to

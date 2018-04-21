@@ -24,6 +24,8 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 
+	float zoomRatio_;
+
 private:
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 
