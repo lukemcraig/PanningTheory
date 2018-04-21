@@ -22,14 +22,18 @@ public:
     Gridlines();
     ~Gridlines();
 
+	void mouseDown(const MouseEvent & e);
+
+	void mouseDrag(const MouseEvent & e);
+
     void paint (Graphics&) override;
     void resized() override;
 
 	float zoomRatio_;
 	float panAngle_;
 private:
-	
-
+	AffineTransform uvTransform_;
+	Point<float> dragPoint_;
 	int MAX_MINOR_GRIDLINES = 9;
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 

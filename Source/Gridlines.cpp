@@ -23,7 +23,22 @@ Gridlines::~Gridlines()
 {
 }
 
+void Gridlines::mouseDown(const MouseEvent& e) 
+{
+	
+}
 
+void Gridlines::mouseDrag(const MouseEvent& e) 
+{
+	auto point = e.getPosition();
+	Point<float> pointf = Point<float>(point.x, point.y);
+	pointf.applyTransform(uvTransform_.inverted());
+	dragPoint_ = Point<float>(pointf.x, pointf.y);
+	DBG(point.toString());
+	//DBG(uvTransform_.getTranslationX());
+	panAngle_ = atan2f(point.y,point.x);
+	repaint();
+}
 
 void Gridlines::paint (Graphics& g)
 {
@@ -32,20 +47,23 @@ void Gridlines::paint (Graphics& g)
     g.setColour (Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
     g.setColour (Colours::white);
-
+	
 	auto cb = g.getClipBounds();
 	float zoomFactor = 1.0f / zoomRatio_;
 
 	// transform into uv coords
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
-	auto transform = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
+	uvTransform_ = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
 	// center the origin
-	transform = transform.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
-	g.addTransform(transform);
+	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
+	//uvTransform_ = uvTransform_.translated(1, 1);
 
-	DrawGridlines(g, zoomRatio_);
-
+	g.addTransform(uvTransform_);
+	g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
 	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .05, .2f, .2f);
+	DrawGridlines(g, zoomRatio_);
+	
+	
 }
 
 void Gridlines::resized()
