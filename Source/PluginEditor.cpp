@@ -36,28 +36,30 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
 	auto cb = g.getClipBounds();
 	auto transform = AffineTransform().scaled(cb.getHeight()/2, cb.getHeight() / -2).translated(cb.getWidth() / 2, cb.getHeight() / 2);
 	g.addTransform(transform);
+	auto flipTransform = AffineTransform().scaled(-1,-1);
 
 	float majorGridLineThickness = .005f;
 	float minorGridLineThickness = .001f;
-	auto horizontalLine = Line<float>(-1,-1,1,-1);
-	auto verticalLine = Line<float>(-1, -1, -1, 1);
+	auto horizontalLine = Line<float>(-1,0,1,0);
+	auto verticalLine = Line<float>(0, -1, 0, 1);
 	int numberOfMajorLines = 4;
 	int numberOfMinorLines = 4;
-	for (int i = 0; i < numberOfMajorLines; i++) {
-		g.drawLine(horizontalLine, majorGridLineThickness);
-		for (int i = 0; i < numberOfMinorLines; i++) {
-			horizontalLine.applyTransform(AffineTransform::translation(0, 0.5f / numberOfMinorLines));
-			g.drawLine(horizontalLine, minorGridLineThickness);
-		}		
 
-		g.drawLine(verticalLine, majorGridLineThickness);
-		for (int i = 0; i < numberOfMinorLines; i++) {
-			verticalLine.applyTransform(AffineTransform::translation(0.5f / numberOfMinorLines, 0));			
-			g.drawLine(verticalLine, minorGridLineThickness);
-		}
-	}	
 	g.drawLine(horizontalLine, majorGridLineThickness);
 	g.drawLine(verticalLine, majorGridLineThickness);
+
+	for (int i = 0; i < numberOfMajorLines; i++) {
+		horizontalLine.applyTransform(AffineTransform::translation(0.0f, 0.5));
+		verticalLine.applyTransform(AffineTransform::translation(0.5f, 0));
+
+		g.drawLine(horizontalLine, majorGridLineThickness);
+		g.drawLine(verticalLine, majorGridLineThickness);
+		g.addTransform(flipTransform);
+
+		g.drawLine(horizontalLine, majorGridLineThickness);
+		g.drawLine(verticalLine, majorGridLineThickness);
+		g.addTransform(flipTransform);
+	}	
 
 	g.drawArrow(Line<float>(0, 0, 1, 1), .05,.2f,.2f);
 }
