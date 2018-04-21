@@ -24,7 +24,7 @@ public:
 
     //==============================================================================
     void paint (Graphics&) override;
-	void DrawGridlines(juce::Graphics & g);
+	void DrawGridlines(juce::Graphics & g, float zoomRatio);
     void resized() override;
 
 private:

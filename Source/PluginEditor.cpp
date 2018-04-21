@@ -35,27 +35,32 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
 	// transform into uv coords
 	auto cb = g.getClipBounds();
-	//TODO parameterize zoom
-	auto transform = AffineTransform().scaled(cb.getHeight()/4, cb.getHeight() / -4).translated(cb.getWidth() / 2, cb.getHeight() / 2);
+	// TODO: parameterize zoom
+	float zoomRatio = 6.0f;
+	float zoomFactor = 1.0f / zoomRatio;
+	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
+	auto transform = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
+	// center the origin
+	transform = transform.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
 	g.addTransform(transform);
 	
-	DrawGridlines(g);
+	DrawGridlines(g, zoomRatio);
 
 	g.drawArrow(Line<float>(0, 0, 1, 1), .05,.2f,.2f);
 }
 
-void PanningTheoryAudioProcessorEditor::DrawGridlines(juce::Graphics & g)
+void PanningTheoryAudioProcessorEditor::DrawGridlines(juce::Graphics & g, float zoomRatio)
 {
 	auto flipTransform = AffineTransform().scaled(-1, -1);
 
 	float majorGridLineThickness = .005f;
 	float minorGridLineThickness = .001f;
 
-	float width = 3; //TODO base on zoom
+	float width = zoomRatio*0.5f;
 	auto horizontalLine = Line<float>(-width, 0, width, 0);
 	auto verticalLine = Line<float>(0, -width, 0, width);
 
-	int numberOfMajorLines = 5; //TODO base on zoom
+	int numberOfMajorLines = (int)zoomRatio;
 	int numberOfMinorLines = 5;
 
 	float majorGridStep = 0.5f;
