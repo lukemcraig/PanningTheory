@@ -17,7 +17,9 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (800, 600);
+	setResizable(true, true);	
+	setResizeLimits(300, 250, 10000, 10000);
 }
 
 PanningTheoryAudioProcessorEditor::~PanningTheoryAudioProcessorEditor()
@@ -31,8 +33,8 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
     g.setColour (Colours::white);
-
-	auto transform = AffineTransform().scaled(150, -150).translated(200,150);
+	auto cb = g.getClipBounds();
+	auto transform = AffineTransform().scaled(cb.getHeight()/2, cb.getHeight() / -2).translated(cb.getWidth() / 2, cb.getHeight() / 2);
 	g.addTransform(transform);
 
 	float majorGridLineThickness = .005f;
@@ -64,4 +66,5 @@ void PanningTheoryAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+
 }
