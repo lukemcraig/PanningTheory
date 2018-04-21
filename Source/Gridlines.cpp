@@ -23,6 +23,18 @@ Gridlines::~Gridlines()
 {
 }
 
+void Gridlines::mouseDown(const MouseEvent& e) 
+{
+	// Prepares our dragger to drag this Component
+	dragger.startDraggingComponent(this, e);
+}
+
+void Gridlines::mouseDrag(const MouseEvent& e) 
+{
+	// Moves this Component according to the mouse drag event and applies our constraints to it
+	dragger.dragComponent(this, e, &constrainer);
+}
+
 void Gridlines::paint (Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
@@ -51,7 +63,7 @@ void Gridlines::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-
+	constrainer.setMinimumOnscreenAmounts(getHeight(), getWidth(), getHeight(), getWidth());
 }
 
 void Gridlines::DrawGridlines(juce::Graphics & g, float zoomRatio)
