@@ -33,35 +33,59 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
     g.setColour (Colours::white);
+	// transform into uv coords
 	auto cb = g.getClipBounds();
 	auto transform = AffineTransform().scaled(cb.getHeight()/2, cb.getHeight() / -2).translated(cb.getWidth() / 2, cb.getHeight() / 2);
 	g.addTransform(transform);
-	auto flipTransform = AffineTransform().scaled(-1,-1);
+	
+	DrawGridlines(g);
+
+	g.drawArrow(Line<float>(0, 0, 1, 1), .05,.2f,.2f);
+}
+
+void PanningTheoryAudioProcessorEditor::DrawGridlines(juce::Graphics & g)
+{
+	auto flipTransform = AffineTransform().scaled(-1, -1);
 
 	float majorGridLineThickness = .005f;
 	float minorGridLineThickness = .001f;
-	auto horizontalLine = Line<float>(-1,0,1,0);
+
+	auto horizontalLine = Line<float>(-1, 0, 1, 0);
 	auto verticalLine = Line<float>(0, -1, 0, 1);
+
 	int numberOfMajorLines = 4;
 	int numberOfMinorLines = 4;
 
+	// Draw the gridlines at the origin
 	g.drawLine(horizontalLine, majorGridLineThickness);
 	g.drawLine(verticalLine, majorGridLineThickness);
 
-	for (int i = 0; i < numberOfMajorLines; i++) {
-		horizontalLine.applyTransform(AffineTransform::translation(0.0f, 0.5));
-		verticalLine.applyTransform(AffineTransform::translation(0.5f, 0));
+	float majorGridStep = 0.5f;
+	float minorGridStep = majorGridStep / numberOfMinorLines;
 
-		g.drawLine(horizontalLine, majorGridLineThickness);
-		g.drawLine(verticalLine, majorGridLineThickness);
-		g.addTransform(flipTransform);
-
-		g.drawLine(horizontalLine, majorGridLineThickness);
-		g.drawLine(verticalLine, majorGridLineThickness);
-		g.addTransform(flipTransform);
-	}	
-
-	g.drawArrow(Line<float>(0, 0, 1, 1), .05,.2f,.2f);
+	for (int i = 0; i < numberOfMajorLines - 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			for (int k = 0; k < numberOfMinorLines; k++) {
+				// shift the lines by the minor grid step
+				horizontalLine.applyTransform(AffineTransform::translation(0, minorGridStep));
+				verticalLine.applyTransform(AffineTransform::translation(minorGridStep, 0));
+				// draw the minor lines
+				g.drawLine(horizontalLine, minorGridLineThickness);
+				g.drawLine(verticalLine, minorGridLineThickness);
+			}
+			// Draw the major gridlines
+			g.drawLine(horizontalLine, majorGridLineThickness);
+			g.drawLine(verticalLine, majorGridLineThickness);
+			// transform the lines backward for the next pass
+			horizontalLine.applyTransform(AffineTransform::translation(0, -majorGridStep));
+			verticalLine.applyTransform(AffineTransform::translation(-majorGridStep, 0));
+			// flip the whole context
+			g.addTransform(flipTransform);
+		}
+		// Shift the lines forward the major grid step for the next pass
+		horizontalLine.applyTransform(AffineTransform::translation(0, majorGridStep));
+		verticalLine.applyTransform(AffineTransform::translation(majorGridStep, 0));
+	}
 }
 
 void PanningTheoryAudioProcessorEditor::resized()
