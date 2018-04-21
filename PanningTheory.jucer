@@ -4,6 +4,8 @@
               jucerVersion="5.3.0">
   <MAINGROUP id="uXuwnq" name="PanningTheory">
     <GROUP id="{8A270411-4B34-5BF6-04A8-97F620EBCFFB}" name="Source">
+      <FILE id="obYdnT" name="Gridlines.cpp" compile="1" resource="0" file="Source/Gridlines.cpp"/>
+      <FILE id="sXc4we" name="Gridlines.h" compile="0" resource="0" file="Source/Gridlines.h"/>
       <FILE id="V6crwO" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="F7zKKV" name="PluginProcessor.h" compile="0" resource="0"
