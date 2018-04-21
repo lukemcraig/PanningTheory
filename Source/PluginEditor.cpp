@@ -20,6 +20,12 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
     setSize (800, 600);
 	setResizable(true, true);	
 	setResizeLimits(300, 250, 10000, 10000);
+
+	zoomSlider_.setSliderStyle(Slider::LinearVertical);
+	zoomSlider_.setRange(0, 16, 0);
+	zoomSlider_.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
+	zoomSlider_.setValue(6);	
+	addAndMakeVisible(zoomSlider_);
 }
 
 PanningTheoryAudioProcessorEditor::~PanningTheoryAudioProcessorEditor()
@@ -35,8 +41,7 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
 	// transform into uv coords
 	auto cb = g.getClipBounds();
-	// TODO: parameterize zoom
-	float zoomRatio = 6.0f;
+	float zoomRatio = zoomSlider_.getValue();
 	float zoomFactor = 1.0f / zoomRatio;
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
 	auto transform = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
@@ -99,5 +104,5 @@ void PanningTheoryAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-
+	zoomSlider_.setBounds(0,0,100,400);
 }

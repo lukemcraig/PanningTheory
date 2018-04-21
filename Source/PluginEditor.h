@@ -32,5 +32,7 @@ private:
     // access the processor object that created it.
     PanningTheoryAudioProcessor& processor;
 
+	Slider zoomSlider_;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };
