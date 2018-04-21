@@ -58,18 +58,19 @@ void Gridlines::DrawGridlines(juce::Graphics & g, float zoomRatio)
 {
 	auto flipTransform = AffineTransform().scaled(-1, -1);
 
-	float majorGridLineThickness = .005f;
+	float majorGridLineThickness = .005f; //TODO set these better
 	float minorGridLineThickness = .001f;
 
 	float width = zoomRatio * 0.5f;
 	auto horizontalLine = Line<float>(-width, 0, width, 0);
 	auto verticalLine = Line<float>(0, -width, 0, width);
 
-	int numberOfMajorLines = (int)zoomRatio;
-	int numberOfMinorLines = 5;
+	int numberOfMajorLines = (int)zoomRatio + 1;
+	
+	int numberOfMinorLines = juce::jmin( (int) (10 / zoomRatio), MAX_MINOR_GRIDLINES);
 
 	float majorGridStep = 0.5f;
-	float minorGridStep = majorGridStep / numberOfMinorLines;
+	float minorGridStep = majorGridStep / (numberOfMinorLines+1);
 
 	// Draw the gridlines at the origin
 	g.drawLine(horizontalLine, majorGridLineThickness);
@@ -77,7 +78,7 @@ void Gridlines::DrawGridlines(juce::Graphics & g, float zoomRatio)
 
 	for (int i = 0; i < numberOfMajorLines; i++) {
 		for (int j = 0; j < 2; j++) {
-			for (int k = 0; k < numberOfMinorLines; k++) {
+			for (int k = 0; k < numberOfMinorLines+1; k++) {
 				// shift the lines by the minor grid step
 				horizontalLine.applyTransform(AffineTransform::translation(0, minorGridStep));
 				verticalLine.applyTransform(AffineTransform::translation(minorGridStep, 0));

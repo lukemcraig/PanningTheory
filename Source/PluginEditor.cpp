@@ -22,9 +22,9 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	setResizeLimits(300, 250, 10000, 10000);
 
 	zoomSlider_.setSliderStyle(Slider::LinearVertical);
-	zoomSlider_.setRange(0, 16, 0);
+	zoomSlider_.setRange(DBL_TRUE_MIN, 16.0, 0);
 	zoomSlider_.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	zoomSlider_.setValue(6);	
+	zoomSlider_.setValue(6.0);	
 	addAndMakeVisible(zoomSlider_);
 	zoomSlider_.addListener(this);
 
@@ -55,7 +55,6 @@ void PanningTheoryAudioProcessorEditor::resized()
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
 {
 	if (slider == &zoomSlider_) {
-		DBG(zoomSlider_.getValue());
 		gridlines_.zoomRatio_ = zoomSlider_.getValue();
 		gridlines_.repaint();
 	}

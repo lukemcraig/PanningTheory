@@ -27,6 +27,8 @@ public:
 	float zoomRatio_;
 
 private:
+	int MAX_MINOR_GRIDLINES = 9;
+
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Gridlines)
