@@ -11,7 +11,6 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "TestCircle.h"
 
 //==============================================================================
 /*
@@ -36,8 +35,6 @@ private:
 	Point<float> dragPoint_;
 	int MAX_MINOR_GRIDLINES = 9;
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
-
-	TestCircle knob_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Gridlines)
 };

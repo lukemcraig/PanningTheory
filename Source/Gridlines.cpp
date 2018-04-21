@@ -14,7 +14,6 @@
 //==============================================================================
 Gridlines::Gridlines()
 {
-	//addAndMakeVisible(knob_);
 	zoomRatio_ = 0;
 	panAngle_ = 0;
 }
@@ -34,9 +33,7 @@ void Gridlines::mouseDrag(const MouseEvent& e)
 	Point<float> pointf = Point<float>(point.x, point.y);
 	pointf.applyTransform(uvTransform_.inverted());
 	dragPoint_ = Point<float>(pointf.x, pointf.y);
-	DBG(point.toString());
-	//DBG(uvTransform_.getTranslationX());
-	panAngle_ = atan2f(point.y,point.x);
+	panAngle_ = atan2f(pointf.y,pointf.x);
 	repaint();
 }
 
@@ -56,22 +53,17 @@ void Gridlines::paint (Graphics& g)
 	uvTransform_ = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
 	// center the origin
 	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
-	//uvTransform_ = uvTransform_.translated(1, 1);
 
 	g.addTransform(uvTransform_);
 	g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
 	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .05, .2f, .2f);
-	DrawGridlines(g, zoomRatio_);
-	
-	
+	DrawGridlines(g, zoomRatio_);	
 }
 
 void Gridlines::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-	
-	//knob_.setBounds(10, 10, 40, 40);
 }
 
 void Gridlines::DrawGridlines(juce::Graphics & g, float zoomRatio)
