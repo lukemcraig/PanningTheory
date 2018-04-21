@@ -37,6 +37,7 @@ private:
     PanningTheoryAudioProcessor& processor;
 	Gridlines gridlines_;
 	Slider zoomSlider_;
+	Slider panAngleSlider_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };

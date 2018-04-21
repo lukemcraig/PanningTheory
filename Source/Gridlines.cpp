@@ -3,7 +3,7 @@
 
     Gridlines.cpp
     Created: 21 Apr 2018 3:55:02pm
-    Author:  Luke
+    Author:  Luke M Craig
 
   ==============================================================================
 */
@@ -14,26 +14,16 @@
 //==============================================================================
 Gridlines::Gridlines()
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-
+	//addAndMakeVisible(knob_);
+	zoomRatio_ = 0;
+	panAngle_ = 0;
 }
 
 Gridlines::~Gridlines()
 {
 }
 
-void Gridlines::mouseDown(const MouseEvent& e) 
-{
-	// Prepares our dragger to drag this Component
-	dragger.startDraggingComponent(this, e);
-}
 
-void Gridlines::mouseDrag(const MouseEvent& e) 
-{
-	// Moves this Component according to the mouse drag event and applies our constraints to it
-	dragger.dragComponent(this, e, &constrainer);
-}
 
 void Gridlines::paint (Graphics& g)
 {
@@ -41,7 +31,6 @@ void Gridlines::paint (Graphics& g)
 
     g.setColour (Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
-
     g.setColour (Colours::white);
 
 	auto cb = g.getClipBounds();
@@ -56,14 +45,15 @@ void Gridlines::paint (Graphics& g)
 
 	DrawGridlines(g, zoomRatio_);
 
-	g.drawArrow(Line<float>(0, 0, 1, 1), .05, .2f, .2f);
+	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .05, .2f, .2f);
 }
 
 void Gridlines::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
-	constrainer.setMinimumOnscreenAmounts(getHeight(), getWidth(), getHeight(), getWidth());
+	
+	//knob_.setBounds(10, 10, 40, 40);
 }
 
 void Gridlines::DrawGridlines(juce::Graphics & g, float zoomRatio)
