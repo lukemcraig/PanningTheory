@@ -44,7 +44,7 @@ private:
 	AffineTransform uvTransform_;
 	AffineTransform radiusTransform_;
 	AffineTransform polarLineTransform_;
-	Point<float> dragPoint_;
+
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 	void DrawPolarGrid(juce::Graphics & g);
 

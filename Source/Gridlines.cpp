@@ -36,12 +36,15 @@ void Gridlines::mouseDown(const MouseEvent& e)
 
 	auto distanceToPhi = abs(clickAngle - panAngle_);
 	auto distanceToTheta = abs(clickAngle - speakerAngle_);
-
-	if (abs(clickAngle - panAngle_) < CLICK_EPSILON && distanceToPhi<distanceToTheta) {
+	auto distanceToNegativeTheta = abs(clickAngle - -speakerAngle_);
+	if (distanceToPhi < CLICK_EPSILON && distanceToPhi<distanceToTheta) {
 		clickedOn_ = phiVectorId;
 	}
-	else if (abs(clickAngle - speakerAngle_) < CLICK_EPSILON && distanceToTheta<distanceToPhi) {
+	else if (distanceToTheta < CLICK_EPSILON && distanceToTheta<distanceToPhi) {
 		clickedOn_ = positiveThetaVectorId;
+	}
+	else if (distanceToNegativeTheta < CLICK_EPSILON && distanceToNegativeTheta<distanceToPhi) {
+		clickedOn_ = negativeThetaVectorId;
 	}
 }
 
@@ -52,20 +55,32 @@ void Gridlines::mouseUp(const MouseEvent& e)
 
 void Gridlines::mouseDrag(const MouseEvent& e) 
 {
+	if (clickedOn_ == nothingId)
+		return;
 	// TODO clean this up
 	auto point = e.getPosition();
 	Point<float> pointf = Point<float>(point.x, point.y);
 	pointf.applyTransform(uvTransform_.inverted());
 	auto clickAngle = atan2f(pointf.y, pointf.x);
 	if (clickedOn_ == phiVectorId) {
-		dragPoint_ = Point<float>(pointf.x, pointf.y);
 		panAngle_ = clickAngle;
 		// clamp the angle
 		panAngle_ = juce::jmax(panAngle_, float_Pi*-0.5f);
 		panAngle_ = juce::jmin(panAngle_, float_Pi*0.5f);
-
-		repaint();
 	}
+	else if (clickedOn_ == positiveThetaVectorId) {
+		speakerAngle_ = clickAngle;
+		// clamp the angle
+		speakerAngle_ = juce::jmax(speakerAngle_, 0.0f);
+		speakerAngle_ = juce::jmin(speakerAngle_, float_Pi*0.5f);
+	}
+	else if (clickedOn_ == negativeThetaVectorId) {
+		speakerAngle_ = -clickAngle;
+		// clamp the angle
+		speakerAngle_ = juce::jmax(speakerAngle_, 0.0f);
+		speakerAngle_ = juce::jmin(speakerAngle_, float_Pi*0.5f);
+	}
+	repaint();
 }
 
 void Gridlines::mouseWheelMove(const MouseEvent & e, const MouseWheelDetails & wheel)
