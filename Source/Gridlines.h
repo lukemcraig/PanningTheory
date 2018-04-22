@@ -46,7 +46,9 @@ private:
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 	void DrawPolarGrid(juce::Graphics & g);
 
-	void DrawPolarGridLines(juce::Graphics & g, int count);
+	void DrawPolarGridLines(juce::Graphics & g, int count, int currentRotation, AffineTransform rotationTransform, int rotationAmount);
+
+	void DrawPolarDegreeText(juce::Graphics & g, int rotationAmount, int currentRotation);
 
 	const int MAX_MINOR_GRIDLINES = 9;
 	const float ARROW_WIDTH = 0.1f;

@@ -4,7 +4,8 @@
               jucerVersion="5.3.1" pluginFormats="buildVST,buildStandalone"
               pluginManufacturer="Liminal Signals" pluginName="Panning Theory"
               pluginDesc="Panning Theory" buildVST="1" buildVST3="0" buildAU="0"
-              buildAUv3="0" buildRTAS="0" buildAAX="0" enableIAA="0">
+              buildAUv3="0" buildRTAS="0" buildAAX="0" enableIAA="0" companyName="Liminal Signals"
+              reportAppUsage="0">
   <MAINGROUP id="uXuwnq" name="PanningTheory">
     <GROUP id="{8A270411-4B34-5BF6-04A8-97F620EBCFFB}" name="Source">
       <FILE id="obYdnT" name="Gridlines.cpp" compile="1" resource="0" file="Source/Gridlines.cpp"/>

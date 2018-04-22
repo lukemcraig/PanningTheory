@@ -54,10 +54,8 @@ void Gridlines::mouseWheelMove(const MouseEvent & e, const MouseWheelDetails & w
 
 void Gridlines::paint (Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
-	   
+    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background	   
     g.setColour (Colours::white);
-
 	auto cb = g.getClipBounds();
 	float zoomFactor = 1.0f / zoomRatio_;
 
@@ -105,18 +103,38 @@ void Gridlines::DrawVectors(juce::Graphics & g)
 void Gridlines::DrawPolarGrid(juce::Graphics & g)
 {
 	DrawPolarGridCircles(g, 4);	
-	DrawPolarGridLines(g, 23);	
+	DrawPolarGridLines(g, 6, 0, polarLineTransform_, 15);	
+	DrawPolarGridLines(g, 6, 0, polarLineTransform_.inverted(), -15);
 }
 
-void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count)
+void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count, int currentRotation, AffineTransform rotationTransform, int rotationAmount)
 {
 	if (count < 0)  // base case
 		return;
-	auto polarLine = Line<float>(0, 0, 0, 10);
+	auto polarLine = Line<float>(0, 0, 10, 0);
 	g.drawLine(polarLine, 0.002f);
-	g.addTransform(polarLineTransform_);// push each transform on the stack
-	DrawPolarGridLines(g, count-1);
-	g.addTransform(polarLineTransform_.inverted());// pop each transform off the stack
+
+	DrawPolarDegreeText(g, rotationAmount, currentRotation);
+
+	g.addTransform(rotationTransform); // push each transform on the stack
+	DrawPolarGridLines(g, count-1, currentRotation+ rotationAmount, rotationTransform, rotationAmount);
+	g.addTransform(rotationTransform.inverted()); // pop each transform off the stack
+}
+
+void Gridlines::DrawPolarDegreeText(juce::Graphics & g, int rotationAmount, int currentRotation)
+{
+	g.setFont(.05f);
+	g.addTransform(AffineTransform::scale(1, -1));
+	auto textRotation = AffineTransform::rotation(float_Pi, 1.25f, 0);
+	if (rotationAmount>0)
+		g.addTransform(textRotation);
+	auto textRect = Rectangle<float>(1.2f, -0.05f, 1, .1f);
+	//g.drawRect(textRect, .01f);	
+	if (rotationAmount>0 || currentRotation != 0)
+		g.drawText(String(currentRotation) + String(CharPointer_UTF8("\xc2\xb0")), textRect, Justification::bottomLeft);
+	if (rotationAmount>0)
+		g.addTransform(textRotation.inverted());
+	g.addTransform(AffineTransform::scale(1, -1));
 }
 
 void Gridlines::DrawPolarGridCircles(juce::Graphics & g, int count)

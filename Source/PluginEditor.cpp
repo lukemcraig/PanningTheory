@@ -28,7 +28,6 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	addAndMakeVisible(panAngleSlider_);
 	panAngleSlider_.addListener(this);
 
-
 	g1Slider_.setSliderStyle(Slider::LinearVertical);
 	g1Slider_.setRange(0.0, 20.0, 0.1);
 	g1Slider_.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 60);
@@ -84,7 +83,6 @@ void PanningTheoryAudioProcessorEditor::resized()
 	g2sSlider_.setBounds(260, 0, 60, 400);
 
 	gridlines_.setBounds(350, 0, 600, 600);
-
 }
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
