@@ -15,6 +15,7 @@
 PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningTheoryAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p)
 {
+	
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (1000, 600);
@@ -96,12 +97,12 @@ void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
 void PanningTheoryAudioProcessorEditor::timerCallback()
 {
 	// TODO use a callback from the grid instead of a timer
-	panAngle_ = radiansToDegrees(gridlines_.panAngle_);
-	speakerAngle_ = radiansToDegrees(gridlines_.speakerAngle_);
-	panAngleSlider_.setValue(panAngle_, dontSendNotification);
+	panAngle_ = gridlines_.panAngle_;
+	speakerAngle_ = gridlines_.speakerAngle_;
+	panAngleSlider_.setValue(radiansToDegrees(panAngle_), dontSendNotification);
 	calculateGains();
-	g1Slider_.setValue(g1_, dontSendNotification);
-	g2Slider_.setValue(g2_, dontSendNotification);
+	g1Slider_.setValue(gains_(0, 0), dontSendNotification);
+	g2Slider_.setValue(gains_(0, 1), dontSendNotification);
 
 	calculateScaledGains();
 	g1sSlider_.setValue(g1s_, dontSendNotification);
@@ -115,15 +116,15 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 }
 
 void PanningTheoryAudioProcessorEditor::calculateScaledGains() {
-	float gLength = sqrtf(juce::square(g1_) + juce::square(g2_));
-	g1s_ = g1_ / gLength;
-	g2s_ = g2_ / gLength;
+	float gLength = sqrtf(juce::square(gains_(0, 0)) + juce::square(gains_(0, 1)));
+	g1s_ = gains_(0, 0) / gLength;
+	g2s_ = gains_(0, 1) / gLength;
 }
 
 void PanningTheoryAudioProcessorEditor::calculateGains() {	
 	// TODO: I should just stick with radians internally, and convert to degrees at the ends
-	g1_ = calculateLeftGain(degreesToRadians(panAngle_), degreesToRadians(speakerAngle_));
-	g2_ = calculateRightGain(degreesToRadians(panAngle_), degreesToRadians(speakerAngle_));
+	gains_(0, 0) = calculateLeftGain(panAngle_, speakerAngle_);
+	gains_(0, 1) = calculateRightGain(panAngle_, speakerAngle_);	
 }
 
 float PanningTheoryAudioProcessorEditor::calculateLeftGain(float phi, float theta)
