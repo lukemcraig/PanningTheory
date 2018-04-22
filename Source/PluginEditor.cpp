@@ -105,24 +105,22 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 	g2Slider_.setValue(gains_(0, 1), dontSendNotification);
 
 	calculateScaledGains();
-	g1sSlider_.setValue(g1s_, dontSendNotification);
-	g2sSlider_.setValue(g2s_, dontSendNotification);
+	g1sSlider_.setValue(gainsScaled_(0,0), dontSendNotification);
+	g2sSlider_.setValue(gainsScaled_(0,1), dontSendNotification);
 
-	processor.g1s_ = g1s_;
-	processor.g2s_ = g2s_;
+	processor.g1s_ = gainsScaled_(0, 0);
+	processor.g2s_ = gainsScaled_(0, 1);
 
-	gridlines_.g1s_ = g1s_;
-	gridlines_.g2s_ = g2s_;
+	gridlines_.g1s_ = gainsScaled_(0, 0);
+	gridlines_.g2s_ = gainsScaled_(0, 1);
 }
 
 void PanningTheoryAudioProcessorEditor::calculateScaledGains() {
 	float gLength = sqrtf(juce::square(gains_(0, 0)) + juce::square(gains_(0, 1)));
-	g1s_ = gains_(0, 0) / gLength;
-	g2s_ = gains_(0, 1) / gLength;
+	gainsScaled_ = gains_ * (1.0f/ gLength);
 }
 
 void PanningTheoryAudioProcessorEditor::calculateGains() {	
-	// TODO: I should just stick with radians internally, and convert to degrees at the ends
 	gains_(0, 0) = calculateLeftGain(panAngle_, speakerAngle_);
 	gains_(0, 1) = calculateRightGain(panAngle_, speakerAngle_);	
 }

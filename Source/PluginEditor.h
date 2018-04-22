@@ -50,10 +50,8 @@ private:
 	float speakerAngle_;
 	float panAngle_;
 
-	float g1s_;
-	float g2s_;
-
 	dsp::Matrix<float>gains_ = dsp::Matrix<float>(1, 2);
+	dsp::Matrix<float>gainsScaled_ = dsp::Matrix<float>(1, 2);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };
