@@ -14,7 +14,7 @@
 //==============================================================================
 Gridlines::Gridlines()
 {
-	zoomRatio_ = 0;
+	zoomRatio_ = 1;
 	panAngle_ = 0;
 }
 
@@ -48,30 +48,35 @@ void Gridlines::paint (Graphics& g)
     g.setColour (Colours::grey);
     g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
     g.setColour (Colours::white);
-	
+
 	auto cb = g.getClipBounds();
 	float zoomFactor = 1.0f / zoomRatio_;
 
 	// transform into uv coords
+	uvTransform_ = AffineTransform();
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
-	uvTransform_ = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
+	uvTransform_ = uvTransform_.scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
 	// rotate so x is pointing up
 	uvTransform_ = uvTransform_.rotated(float_Pi * -0.5f);
 	// center the origin
-	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
+	uvTransform_ = uvTransform_.translated(cb.getHeight() * 0.5f, cb.getHeight() * 0.75f); 
 	g.addTransform(uvTransform_);
+	
+	DrawGridlines(g, zoomRatio_);
 
+	auto arc = Path();
+	arc.addCentredArc(0, 0, 1, 1, 0, 0, float_Pi, true);
+	g.strokePath(arc, PathStrokeType(0.02f, PathStrokeType::curved, PathStrokeType::rounded));
+
+	//g.drawEllipse(-1, -1, 2, 2, 0.01f);
 	//g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
-
+	g.setColour(Colours::orange);
 	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
 
 	g.setColour(Colours::palegreen);
 	g.drawArrow(Line<float>(0, 0, cos(speakerAngle_), sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
 	g.setColour(Colours::powderblue);
 	g.drawArrow(Line<float>(0, 0, cos(speakerAngle_), -sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
-	
-	g.setColour(Colours::white);
-	DrawGridlines(g, zoomRatio_);	
 }
 
 void Gridlines::resized()
