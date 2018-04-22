@@ -65,27 +65,24 @@ void Gridlines::mouseDrag(const MouseEvent& e)
 	if (clickedOn_ == phiVectorId) {
 		panAngle_ = clickAngle;
 		// clamp the angle
-		panAngle_ = juce::jmax(panAngle_, float_Pi*-0.5f);	// > -90 degrees
-		panAngle_ = juce::jmin(panAngle_, float_Pi*0.5f);	// < 90 degrees
+		panAngle_ = juce::jmax(panAngle_, float_Pi*-0.5f);				// > -90 degrees
+		panAngle_ = juce::jmin(panAngle_, float_Pi*0.5f);				// < 90 degrees
 
-		panAngle_ = juce::jmax(panAngle_, -speakerAngle_);	// > -theta
-		panAngle_ = juce::jmin(panAngle_, speakerAngle_);	// < theta
+		panAngle_ = juce::jmax(panAngle_, -speakerAngle_);				// > -theta
+		panAngle_ = juce::jmin(panAngle_, speakerAngle_);				// < theta
 	}
-	else if (clickedOn_ == positiveThetaVectorId) {
-		speakerAngle_ = clickAngle;
+	else if (clickedOn_ == positiveThetaVectorId || clickedOn_ == negativeThetaVectorId) {
+		if (clickedOn_ == positiveThetaVectorId) {
+			speakerAngle_ = clickAngle;
+		}
+		else if (clickedOn_ == negativeThetaVectorId) {
+			speakerAngle_ = -clickAngle;
+		}
 		// clamp the angle
-		speakerAngle_ = juce::jmax(speakerAngle_, 0.0f);			// > 0 degrees
-		speakerAngle_ = juce::jmin(speakerAngle_, float_Pi*0.5f);	// < 90 degrees
-
-		speakerAngle_ = juce::jmax(speakerAngle_, panAngle_);		// > phi
-	}
-	else if (clickedOn_ == negativeThetaVectorId) {
-		speakerAngle_ = -clickAngle;
-		// clamp the angle											
-		speakerAngle_ = juce::jmax(speakerAngle_, 0.0f);			// > 0 degrees
-		speakerAngle_ = juce::jmin(speakerAngle_, float_Pi*0.5f);	// < 90 degrees
-																	
-		speakerAngle_ = juce::jmax(speakerAngle_, -panAngle_);		// < phi
+		speakerAngle_ = juce::jmax(speakerAngle_, MIN_SPEAKERANGLE);	// The speakers can't be in the same position
+		speakerAngle_ = juce::jmin(speakerAngle_, float_Pi*0.5f);		// < 90 degrees
+		speakerAngle_ = juce::jmax(speakerAngle_, panAngle_);			// > phi
+		speakerAngle_ = juce::jmax(speakerAngle_, -panAngle_);			// > -phi
 	}
 	repaint();
 }
