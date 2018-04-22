@@ -1,0 +1,9 @@
+---
+---
+
+@import "{{ site.theme }}";
+.container {
+   position: relative;
+   width: 50%;
+   padding-top: 50%; /* 1:1 Aspect Ratio */
+}
