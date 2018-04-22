@@ -37,13 +37,13 @@ void Gridlines::mouseDown(const MouseEvent& e)
 	auto distanceToPhi = abs(clickAngle - panAngle_);
 	auto distanceToTheta = abs(clickAngle - speakerAngle_);
 	auto distanceToNegativeTheta = abs(clickAngle - -speakerAngle_);
-	if (distanceToPhi < CLICK_EPSILON && distanceToPhi<distanceToTheta) {
+	if (distanceToPhi < CLICK_EPSILON && distanceToPhi<=distanceToTheta && distanceToPhi<=distanceToNegativeTheta) {
 		clickedOn_ = phiVectorId;
 	}
-	else if (distanceToTheta < CLICK_EPSILON && distanceToTheta<distanceToPhi) {
+	else if (distanceToTheta < CLICK_EPSILON && distanceToTheta<=distanceToPhi  && distanceToTheta<=distanceToNegativeTheta) {
 		clickedOn_ = positiveThetaVectorId;
 	}
-	else if (distanceToNegativeTheta < CLICK_EPSILON && distanceToNegativeTheta<distanceToPhi) {
+	else if (distanceToNegativeTheta < CLICK_EPSILON && distanceToNegativeTheta<=distanceToPhi && distanceToNegativeTheta<=distanceToTheta) {
 		clickedOn_ = negativeThetaVectorId;
 	}
 }

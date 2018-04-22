@@ -47,7 +47,7 @@ private:
 	Slider g2Slider_;
 	Slider g1sSlider_;
 	Slider g2sSlider_;
-	const float speakerAngle_ = 45.0f;
+	float speakerAngle_;
 	float panAngle_;
 	float g1_;
 	float g2_;

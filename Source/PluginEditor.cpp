@@ -97,6 +97,7 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 {
 	// TODO use a callback from the grid instead of a timer
 	panAngle_ = radiansToDegrees(gridlines_.panAngle_);
+	speakerAngle_ = radiansToDegrees(gridlines_.speakerAngle_);
 	panAngleSlider_.setValue(panAngle_, dontSendNotification);
 	calculateGains();
 	g1Slider_.setValue(g1_, dontSendNotification);
