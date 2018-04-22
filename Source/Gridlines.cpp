@@ -17,7 +17,7 @@ Gridlines::Gridlines()
 	zoomRatio_ = 1;
 	panAngle_ = 0;
 	radiusTransform_ = AffineTransform::scale(2);
-	polarLineTransform_ = AffineTransform::rotation(float_Pi*.5f);
+	polarLineTransform_ = AffineTransform::rotation(float_Pi/12.0f);
 }
 
 Gridlines::~Gridlines()
@@ -65,7 +65,6 @@ void Gridlines::paint (Graphics& g)
 	
 	//TODO make these options bools for the component
 	//DrawGridlines(g, zoomRatio_);
-	DrawPolarGrid(g);	
 
 	g.setColour(Colours::wheat);
 	auto arc = Path();
@@ -81,6 +80,9 @@ void Gridlines::paint (Graphics& g)
 	g.setColour(Colours::powderblue);
 	g.drawArrow(Line<float>(0, 0, cos(speakerAngle_), -sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
 
+	g.setColour(Colours::white);
+	DrawPolarGrid(g);
+
 	g.addTransform(uvTransform_.inverted());
 	g.setColour(Colours::black);
 	g.drawRect(getLocalBounds(), 3);   // draw an outline around the component
@@ -89,15 +91,17 @@ void Gridlines::paint (Graphics& g)
 void Gridlines::DrawPolarGrid(juce::Graphics & g)
 {
 	DrawPolarGridCircles(g, 4);
-	DrawPolarGridLines(g, 2);
+	
+	DrawPolarGridLines(g, 23);
+	
 }
 
 void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count)
 {
 	if (count < 0)  // base case
 		return;
-	auto polarLine = Line<float>(0, 0, 0, 1);
-	g.drawLine(polarLine, 0.001f);
+	auto polarLine = Line<float>(0, 0, 0, 10);
+	g.drawLine(polarLine, 0.002f);
 	g.addTransform(polarLineTransform_);// push each transform on the stack
 	DrawPolarGridLines(g, count-1);
 	g.addTransform(polarLineTransform_.inverted());// pop each transform off the stack
