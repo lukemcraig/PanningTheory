@@ -37,8 +37,12 @@ public:
 private:
 	AffineTransform uvTransform_;
 	AffineTransform radiusTransform_;
+	AffineTransform polarLineTransform_;
 	Point<float> dragPoint_;
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
+	void DrawPolarGrid(juce::Graphics & g);
+
+	void DrawPolarGridLines(juce::Graphics & g, int count);
 
 	const int MAX_MINOR_GRIDLINES = 9;
 	const float ARROW_WIDTH = 0.1f;

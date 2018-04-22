@@ -17,6 +17,7 @@ Gridlines::Gridlines()
 	zoomRatio_ = 1;
 	panAngle_ = 0;
 	radiusTransform_ = AffineTransform::scale(2);
+	polarLineTransform_ = AffineTransform::rotation(float_Pi*.5f);
 }
 
 Gridlines::~Gridlines()
@@ -54,6 +55,7 @@ void Gridlines::paint (Graphics& g)
 	// transform into uv coords
 	uvTransform_ = AffineTransform();
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
+	// TODO don't do this negative scale
 	uvTransform_ = uvTransform_.scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
 	// rotate so x is pointing up
 	uvTransform_ = uvTransform_.rotated(float_Pi * -0.5f);
@@ -61,13 +63,14 @@ void Gridlines::paint (Graphics& g)
 	uvTransform_ = uvTransform_.translated(cb.getHeight() * 0.5f, cb.getHeight() * 0.5f); 
 	g.addTransform(uvTransform_);
 	
-	DrawGridlines(g, zoomRatio_);
-	DrawPolarGridCircles(g, 4);
+	//TODO make these options bools for the component
+	//DrawGridlines(g, zoomRatio_);
+	DrawPolarGrid(g);	
 
 	g.setColour(Colours::wheat);
 	auto arc = Path();
 	arc.addCentredArc(0, 0, 1, 1, 0, 0, float_Pi, true);
-	g.strokePath(arc, PathStrokeType(0.05f, PathStrokeType::curved, PathStrokeType::rounded));
+	g.strokePath(arc, PathStrokeType(0.05f, PathStrokeType::beveled, PathStrokeType::butt));
 	
 	//g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
 	g.setColour(Colours::orange);
@@ -83,13 +86,30 @@ void Gridlines::paint (Graphics& g)
 	g.drawRect(getLocalBounds(), 3);   // draw an outline around the component
 }
 
+void Gridlines::DrawPolarGrid(juce::Graphics & g)
+{
+	DrawPolarGridCircles(g, 4);
+	DrawPolarGridLines(g, 2);
+}
+
+void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count)
+{
+	if (count < 0)  // base case
+		return;
+	auto polarLine = Line<float>(0, 0, 0, 1);
+	g.drawLine(polarLine, 0.001f);
+	g.addTransform(polarLineTransform_);// push each transform on the stack
+	DrawPolarGridLines(g, count-1);
+	g.addTransform(polarLineTransform_.inverted());// pop each transform off the stack
+}
+
 void Gridlines::DrawPolarGridCircles(juce::Graphics & g, int count)
 {	
-	g.drawEllipse(-.5, -.5, 1, 1, 0.0025f);
-	
+	if (count < 0) // base case
+		return;
+	g.drawEllipse(-.5, -.5, 1, 1, 0.0025f);	
 	g.addTransform(radiusTransform_); // push each transform on the stack
-	if(count>0) // base case
-		DrawPolarGridCircles(g, count-1);
+	DrawPolarGridCircles(g, count-1);
 	g.addTransform(radiusTransform_.inverted()); // pop each transform off the stack
 }
 
