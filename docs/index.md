@@ -1,3 +1,7 @@
+---
+title: Panning Theory
+subtitle: Luke M. Craig
+---
 # Panning Theory
 ## Calculating speaker gain, given a desired perceptual angle of a sound and angle of the speakers to the listener:
 In this interactive graph, the listeners head is at the origin facing the +x axis.
