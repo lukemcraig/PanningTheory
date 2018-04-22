@@ -36,7 +36,7 @@
 // BEGIN SECTION A
 
 #ifndef JUCE_DISPLAY_SPLASH_SCREEN
- #define JUCE_DISPLAY_SPLASH_SCREEN 1
+ #define JUCE_DISPLAY_SPLASH_SCREEN 0
 #endif
 
 #ifndef JUCE_REPORT_APP_USAGE
@@ -291,7 +291,7 @@
 // Audio plugin settings..
 
 #ifndef  JucePlugin_Build_VST
- #define JucePlugin_Build_VST              0
+ #define JucePlugin_Build_VST              1
 #endif
 #ifndef  JucePlugin_Build_VST3
  #define JucePlugin_Build_VST3             0
@@ -315,13 +315,13 @@
  #define JucePlugin_Enable_IAA             0
 #endif
 #ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "PanningTheory"
+ #define JucePlugin_Name                   "Panning Theory"
 #endif
 #ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "PanningTheory"
+ #define JucePlugin_Desc                   "Panning Theory"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "yourcompany"
+ #define JucePlugin_Manufacturer           "Liminal Signals"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
  #define JucePlugin_ManufacturerWebsite    ""
@@ -333,7 +333,7 @@
  #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x417a6c6c // 'Azll'
+ #define JucePlugin_PluginCode             0x57766172 // 'Wvar'
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                0
@@ -426,5 +426,5 @@
  #define JucePlugin_IAASubType             JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "yourcompany: PanningTheory"
+ #define JucePlugin_IAAName                "Liminal Signals: Panning Theory"
 #endif
