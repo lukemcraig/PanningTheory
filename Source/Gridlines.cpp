@@ -55,6 +55,8 @@ void Gridlines::paint (Graphics& g)
 	// transform into uv coords
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
 	uvTransform_ = AffineTransform().scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
+	// rotate so x is pointing up
+	uvTransform_ = uvTransform_.rotated(float_Pi * -0.5f);
 	// center the origin
 	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f);
 	g.addTransform(uvTransform_);
