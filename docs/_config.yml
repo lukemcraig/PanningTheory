@@ -1,2 +1,4 @@
 remote_theme: "mmistakes/minimal-mistakes"
 title: [Panning Theory]
+
+theme: jekyll-theme-cayman
