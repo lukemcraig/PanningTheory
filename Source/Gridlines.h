@@ -55,7 +55,7 @@ private:
 	const int MAX_MINOR_GRIDLINES = 9;
 	const float ARROW_WIDTH = 0.1f;
 	const float ARROW_LENGTH = 0.1f;
-	const float CLICK_EPSILON = 0.2f;
+	const float CLICK_EPSILON = 0.75f;
 
 	enum ClickableGraphObjects
 	{

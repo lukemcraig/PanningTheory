@@ -65,8 +65,11 @@ void Gridlines::mouseDrag(const MouseEvent& e)
 	if (clickedOn_ == phiVectorId) {
 		panAngle_ = clickAngle;
 		// clamp the angle
-		panAngle_ = juce::jmax(panAngle_, float_Pi*-0.5f);
-		panAngle_ = juce::jmin(panAngle_, float_Pi*0.5f);
+		panAngle_ = juce::jmax(panAngle_, float_Pi*-0.5f);	// > -90 degrees
+		panAngle_ = juce::jmin(panAngle_, float_Pi*0.5f);	// < 90 degrees
+
+		panAngle_ = juce::jmax(panAngle_, -speakerAngle_);	// > -theta
+		panAngle_ = juce::jmin(panAngle_, speakerAngle_);	// < theta
 	}
 	else if (clickedOn_ == positiveThetaVectorId) {
 		speakerAngle_ = clickAngle;
@@ -129,13 +132,13 @@ void Gridlines::paint (Graphics& g)
 
 void Gridlines::DrawVectors(juce::Graphics & g)
 {
-	g.setColour(Colours::orange);
-	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
-
 	g.setColour(Colours::palegreen);
 	g.drawArrow(Line<float>(0, 0, g1s_ * cos(speakerAngle_), g1s_ * sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
 	g.setColour(Colours::powderblue);
 	g.drawArrow(Line<float>(0, 0, g2s_ * cos(speakerAngle_), g2s_ * -sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+	
+	g.setColour(Colours::orange);
+	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
 }
 
 void Gridlines::DrawPolarGrid(juce::Graphics & g)
