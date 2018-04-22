@@ -22,7 +22,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	setResizeLimits(300, 250, 10000, 10000);
 
 	zoomSlider_.setSliderStyle(Slider::LinearVertical);
-	zoomSlider_.setRange(DBL_TRUE_MIN, 16.0, 0);
+	zoomSlider_.setRange(0.1, 16.0, 0);
 	zoomSlider_.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
 	zoomSlider_.setValue(2.0);	
 	addAndMakeVisible(zoomSlider_);
