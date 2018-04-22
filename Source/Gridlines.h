@@ -28,13 +28,19 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 
+	// TODO getters, setters
 	float zoomRatio_;
 	float panAngle_;
+	float speakerAngle_ = float_Pi / 4.0f;
+
 private:
 	AffineTransform uvTransform_;
 	Point<float> dragPoint_;
-	int MAX_MINOR_GRIDLINES = 9;
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
+
+	const int MAX_MINOR_GRIDLINES = 9;
+	const float ARROW_WIDTH = 0.1f;
+	const float ARROW_LENGTH = 0.1f;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Gridlines)
 };

@@ -29,6 +29,7 @@ void Gridlines::mouseDown(const MouseEvent& e)
 
 void Gridlines::mouseDrag(const MouseEvent& e) 
 {
+	// TODO clean this up
 	auto point = e.getPosition();
 	Point<float> pointf = Point<float>(point.x, point.y);
 	pointf.applyTransform(uvTransform_.inverted());
@@ -59,8 +60,15 @@ void Gridlines::paint (Graphics& g)
 	g.addTransform(uvTransform_);
 
 	//g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
-	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .05, .2f, .2f);
+
+	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+
+	g.setColour(Colours::palegreen);
+	g.drawArrow(Line<float>(0, 0, cos(speakerAngle_), sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+	g.setColour(Colours::powderblue);
+	g.drawArrow(Line<float>(0, 0, cos(speakerAngle_), -sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
 	
+	g.setColour(Colours::white);
 	DrawGridlines(g, zoomRatio_);	
 }
 
