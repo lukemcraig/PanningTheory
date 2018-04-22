@@ -34,6 +34,7 @@ public:
 
 private:
 	void calculateGains();
+	void calculateGains2();
 	static float calculateLeftGain(float phi, float theta);
 	static float calculateRightGain(float phi, float theta);
 	void calculateScaledGains();
@@ -50,8 +51,10 @@ private:
 	float speakerAngle_;
 	float panAngle_;
 
-	dsp::Matrix<float>gains_ = dsp::Matrix<float>(1, 2);
-	dsp::Matrix<float>gainsScaled_ = dsp::Matrix<float>(1, 2);
+	dsp::Matrix<float> p_ = dsp::Matrix<float>(1, 2);
+	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
+	dsp::Matrix<float> gains_ = dsp::Matrix<float>(1, 2);
+	dsp::Matrix<float> gainsScaled_ = dsp::Matrix<float>(1, 2);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };

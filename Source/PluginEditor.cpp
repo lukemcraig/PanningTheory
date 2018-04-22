@@ -98,6 +98,14 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 {
 	// TODO use a callback from the grid instead of a timer
 	panAngle_ = gridlines_.panAngle_;
+	p_(0, 0) = gridlines_.p1_;
+	p_(0, 1) = gridlines_.p2_;
+
+	L_(0, 0) = gridlines_.l11_;
+	L_(0, 1) = gridlines_.l12_;
+	L_(1, 0) = gridlines_.l21_;
+	L_(1, 1) = gridlines_.l22_;
+
 	speakerAngle_ = gridlines_.speakerAngle_;
 	panAngleSlider_.setValue(radiansToDegrees(panAngle_), dontSendNotification);
 	calculateGains();
@@ -121,8 +129,12 @@ void PanningTheoryAudioProcessorEditor::calculateScaledGains() {
 }
 
 void PanningTheoryAudioProcessorEditor::calculateGains() {	
-	gains_(0, 0) = calculateLeftGain(panAngle_, speakerAngle_);
-	gains_(0, 1) = calculateRightGain(panAngle_, speakerAngle_);	
+	gains_(0,0) = calculateLeftGain(panAngle_, speakerAngle_);
+	gains_(0,1) = calculateRightGain(panAngle_, speakerAngle_);	
+}
+
+void PanningTheoryAudioProcessorEditor::calculateGains2() {
+
 }
 
 float PanningTheoryAudioProcessorEditor::calculateLeftGain(float phi, float theta)

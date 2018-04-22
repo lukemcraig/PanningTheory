@@ -39,6 +39,13 @@ public:
 	float speakerAngle_ = float_Pi / 4.0f;
 	float g1s_;
 	float g2s_;
+	float p1_;
+	float p2_;
+
+	float l11_;
+	float l12_;
+	float l21_;
+	float l22_;
 
 private:
 	AffineTransform uvTransform_;

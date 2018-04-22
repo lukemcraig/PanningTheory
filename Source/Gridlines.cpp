@@ -134,12 +134,18 @@ void Gridlines::paint (Graphics& g)
 void Gridlines::DrawVectors(juce::Graphics & g)
 {
 	g.setColour(Colours::palegreen);
-	g.drawArrow(Line<float>(0, 0, g1s_ * cos(speakerAngle_), g1s_ * sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+	l11_ = cos(speakerAngle_);
+	l12_ = sin(speakerAngle_);
+	l21_ = cos(speakerAngle_);
+	l22_ = -sin(speakerAngle_);
+	g.drawArrow(Line<float>(0, 0, g1s_ * l11_, g1s_ * l12_), .02, ARROW_WIDTH, ARROW_LENGTH);
 	g.setColour(Colours::powderblue);
-	g.drawArrow(Line<float>(0, 0, g2s_ * cos(speakerAngle_), g2s_ * -sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+	g.drawArrow(Line<float>(0, 0, g2s_ * l21_, g2s_ * l22_), .02, ARROW_WIDTH, ARROW_LENGTH);
 	
 	g.setColour(Colours::orange);
-	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+	p1_ = cos(panAngle_);
+	p2_ = sin(panAngle_);
+	g.drawArrow(Line<float>(0, 0, p1_, p2_), .02, ARROW_WIDTH, ARROW_LENGTH);
 }
 
 void Gridlines::DrawPolarGrid(juce::Graphics & g)
