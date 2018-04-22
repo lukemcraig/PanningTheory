@@ -14,10 +14,12 @@
 //==============================================================================
 Gridlines::Gridlines()
 {
-	zoomRatio_ = 1;
+	zoomRatio_ = 2.5f;
 	panAngle_ = 0;
 	radiusTransform_ = AffineTransform::scale(2);
 	polarLineTransform_ = AffineTransform::rotation(float_Pi/12.0f);
+	g1s_ = 1;
+	g2s_ = 1;
 }
 
 Gridlines::~Gridlines()
@@ -79,13 +81,7 @@ void Gridlines::paint (Graphics& g)
 	g.strokePath(arc, PathStrokeType(0.05f, PathStrokeType::beveled, PathStrokeType::butt));
 	
 	//g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
-	g.setColour(Colours::orange);
-	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
-
-	g.setColour(Colours::palegreen);
-	g.drawArrow(Line<float>(0, 0, cos(speakerAngle_), sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
-	g.setColour(Colours::powderblue);
-	g.drawArrow(Line<float>(0, 0, cos(speakerAngle_), -sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+	DrawVectors(g);
 
 	g.setColour(Colours::white);
 	DrawPolarGrid(g);
@@ -95,12 +91,21 @@ void Gridlines::paint (Graphics& g)
 	g.drawRect(getLocalBounds(), 3);   // draw an outline around the component
 }
 
+void Gridlines::DrawVectors(juce::Graphics & g)
+{
+	g.setColour(Colours::orange);
+	g.drawArrow(Line<float>(0, 0, cos(panAngle_), sin(panAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+
+	g.setColour(Colours::palegreen);
+	g.drawArrow(Line<float>(0, 0, g1s_ * cos(speakerAngle_), g1s_ * sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+	g.setColour(Colours::powderblue);
+	g.drawArrow(Line<float>(0, 0, g2s_ * cos(speakerAngle_), g2s_ * -sin(speakerAngle_)), .02, ARROW_WIDTH, ARROW_LENGTH);
+}
+
 void Gridlines::DrawPolarGrid(juce::Graphics & g)
 {
-	DrawPolarGridCircles(g, 4);
-	
-	DrawPolarGridLines(g, 23);
-	
+	DrawPolarGridCircles(g, 4);	
+	DrawPolarGridLines(g, 23);	
 }
 
 void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count)

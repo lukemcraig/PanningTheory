@@ -110,6 +110,9 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 
 	processor.g1s_ = g1s_;
 	processor.g2s_ = g2s_;
+
+	gridlines_.g1s_ = g1s_;
+	gridlines_.g2s_ = g2s_;
 }
 
 void PanningTheoryAudioProcessorEditor::calculateScaledGains() {

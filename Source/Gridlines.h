@@ -27,6 +27,7 @@ public:
 	void mouseWheelMove(const MouseEvent& e, const MouseWheelDetails& wheel) override;
 
     void paint (Graphics&) override;
+	void DrawVectors(juce::Graphics & g);
 	void DrawPolarGridCircles(juce::Graphics & g, int count);
     void resized() override;
 
@@ -34,6 +35,8 @@ public:
 	float zoomRatio_;
 	float panAngle_;
 	float speakerAngle_ = float_Pi / 4.0f;
+	float g1s_;
+	float g2s_;
 
 private:
 	AffineTransform uvTransform_;
@@ -48,6 +51,7 @@ private:
 	const int MAX_MINOR_GRIDLINES = 9;
 	const float ARROW_WIDTH = 0.1f;
 	const float ARROW_LENGTH = 0.1f;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Gridlines)
 };
