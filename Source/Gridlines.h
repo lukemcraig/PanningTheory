@@ -26,6 +26,7 @@ public:
 	void mouseDrag(const MouseEvent & e);
 
     void paint (Graphics&) override;
+	void DrawPolarGridCircles(juce::Graphics & g, int count);
     void resized() override;
 
 	// TODO getters, setters
@@ -35,6 +36,7 @@ public:
 
 private:
 	AffineTransform uvTransform_;
+	AffineTransform radiusTransform_;
 	Point<float> dragPoint_;
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 

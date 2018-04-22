@@ -16,6 +16,7 @@ Gridlines::Gridlines()
 {
 	zoomRatio_ = 1;
 	panAngle_ = 0;
+	radiusTransform_ = AffineTransform::scale(2);
 }
 
 Gridlines::~Gridlines()
@@ -61,11 +62,12 @@ void Gridlines::paint (Graphics& g)
 	g.addTransform(uvTransform_);
 	
 	DrawGridlines(g, zoomRatio_);
+	DrawPolarGridCircles(g, 4);
 
 	g.setColour(Colours::wheat);
 	auto arc = Path();
 	arc.addCentredArc(0, 0, 1, 1, 0, 0, float_Pi, true);
-	g.strokePath(arc, PathStrokeType(0.01f, PathStrokeType::curved, PathStrokeType::rounded));
+	g.strokePath(arc, PathStrokeType(0.05f, PathStrokeType::curved, PathStrokeType::rounded));
 	
 	//g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
 	g.setColour(Colours::orange);
@@ -79,6 +81,16 @@ void Gridlines::paint (Graphics& g)
 	g.addTransform(uvTransform_.inverted());
 	g.setColour(Colours::black);
 	g.drawRect(getLocalBounds(), 3);   // draw an outline around the component
+}
+
+void Gridlines::DrawPolarGridCircles(juce::Graphics & g, int count)
+{	
+	g.drawEllipse(-.5, -.5, 1, 1, 0.0025f);
+	
+	g.addTransform(radiusTransform_); // push each transform on the stack
+	if(count>0) // base case
+		DrawPolarGridCircles(g, count-1);
+	g.addTransform(radiusTransform_.inverted()); // pop each transform off the stack
 }
 
 void Gridlines::resized()
