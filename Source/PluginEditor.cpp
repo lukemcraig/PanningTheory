@@ -29,25 +29,25 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	panAngleSlider_.addListener(this);
 
 	g1Slider_.setSliderStyle(Slider::LinearVertical);
-	g1Slider_.setRange(0.0, 20.0, 0.1);
+	g1Slider_.setRange(0.0, 20.0, 0.01);
 	g1Slider_.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 60);
 	g1Slider_.setValue(0.0);
 	addAndMakeVisible(g1Slider_);
 
 	g2Slider_.setSliderStyle(Slider::LinearVertical);
-	g2Slider_.setRange(0.0, 20.0, 0.1);
+	g2Slider_.setRange(0.0, 20.0, 0.01);
 	g2Slider_.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 60);
 	g2Slider_.setValue(0.0);
 	addAndMakeVisible(g2Slider_);
 
 	g1sSlider_.setSliderStyle(Slider::LinearVertical);
-	g1sSlider_.setRange(0.0, 1.0, 0.1);
+	g1sSlider_.setRange(0.0, 1.0, 0.01);
 	g1sSlider_.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 60);
 	g1sSlider_.setValue(0.0);
 	addAndMakeVisible(g1sSlider_);
 
 	g2sSlider_.setSliderStyle(Slider::LinearVertical);
-	g2sSlider_.setRange(0.0, 1.0, 0.1);
+	g2sSlider_.setRange(0.0, 1.0, 0.01);
 	g2sSlider_.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 60);
 	g2sSlider_.setValue(0.0);
 	addAndMakeVisible(g2sSlider_);
