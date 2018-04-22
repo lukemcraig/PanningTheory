@@ -21,9 +21,10 @@ public:
     Gridlines();
     ~Gridlines();
 
-	void mouseDown(const MouseEvent & e);
+	void mouseDown(const MouseEvent & e) override;
 
-	void mouseDrag(const MouseEvent & e);
+	void mouseDrag(const MouseEvent & e) override;
+	void mouseWheelMove(const MouseEvent& e, const MouseWheelDetails& wheel) override;
 
     void paint (Graphics&) override;
 	void DrawPolarGridCircles(juce::Graphics & g, int count);

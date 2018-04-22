@@ -21,13 +21,6 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	setResizable(true, true);	
 	setResizeLimits(300, 250, 10000, 10000);
 
-	zoomSlider_.setSliderStyle(Slider::LinearVertical);
-	zoomSlider_.setRange(0.1, 16.0, 0);
-	zoomSlider_.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
-	zoomSlider_.setValue(2.0);	
-	addAndMakeVisible(zoomSlider_);
-	zoomSlider_.addListener(this);
-
 	panAngleSlider_.setSliderStyle(Slider::LinearVertical);
 	panAngleSlider_.setRange(-90.0, 90.0, 0.1);
 	panAngleSlider_.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 60);
@@ -82,7 +75,7 @@ void PanningTheoryAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-	zoomSlider_.setBounds(0,0,20,400);
+	
 	panAngleSlider_.setBounds(40, 0, 40, 400);
 	g1Slider_.setBounds(80, 0, 60, 400);
 	g2Slider_.setBounds(140, 0, 60, 400);
@@ -96,10 +89,6 @@ void PanningTheoryAudioProcessorEditor::resized()
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
 {
-	if (slider == &zoomSlider_) {
-		gridlines_.zoomRatio_ = zoomSlider_.getValue();
-		gridlines_.repaint();
-	}
 	if (slider == &panAngleSlider_) {
 		gridlines_.panAngle_ = degreesToRadians(panAngleSlider_.getValue());		
 		gridlines_.repaint();

@@ -30,9 +30,7 @@ public:
     void resized() override;
 
 	void sliderValueChanged(Slider * slider);
-	void timerCallback() override;
-
-	
+	void timerCallback() override;	
 
 private:
 	void calculateGains();
@@ -43,7 +41,6 @@ private:
     // access the processor object that created it.
     PanningTheoryAudioProcessor& processor;
 	Gridlines gridlines_;
-	Slider zoomSlider_;
 	Slider panAngleSlider_;
 
 	Slider g1Slider_;

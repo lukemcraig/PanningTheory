@@ -43,6 +43,13 @@ void Gridlines::mouseDrag(const MouseEvent& e)
 	repaint();
 }
 
+void Gridlines::mouseWheelMove(const MouseEvent & e, const MouseWheelDetails & wheel)
+{
+	zoomRatio_ -= wheel.deltaY;
+	zoomRatio_ = juce::jmax(0.1f, zoomRatio_);
+	repaint();
+}
+
 void Gridlines::paint (Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
