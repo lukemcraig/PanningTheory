@@ -118,6 +118,9 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 	calculateScaledGains();
 	g1sSlider_.setValue(g1s_, dontSendNotification);
 	g2sSlider_.setValue(g2s_, dontSendNotification);
+
+	processor.g1s_ = g1s_;
+	processor.g2s_ = g2s_;
 }
 
 void PanningTheoryAudioProcessorEditor::calculateScaledGains() {

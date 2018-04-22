@@ -24,6 +24,8 @@ PanningTheoryAudioProcessor::PanningTheoryAudioProcessor()
                        )
 #endif
 {
+	g1s_ = 0;
+	g2s_ = 0;
 }
 
 PanningTheoryAudioProcessor::~PanningTheoryAudioProcessor()
@@ -134,6 +136,7 @@ void PanningTheoryAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
+	const int numSamples = buffer.getNumSamples();
 
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -144,18 +147,18 @@ void PanningTheoryAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+	// TODO do this better
+    auto* channelData1 = buffer.getWritePointer (0);
+	for (int sample = 0; sample < numSamples; sample++)
+	{
+		channelData1[sample] *= g1s_;		
+	}
 
-        // ..do something to the data...
-    }
+	auto* channelData2 = buffer.getWritePointer(1);
+	for (int sample = 0; sample < numSamples; sample++)
+	{
+		channelData2[sample] *= g2s_;
+	}   
 }
 
 //==============================================================================
