@@ -23,6 +23,8 @@ public:
 
 	void mouseDown(const MouseEvent & e) override;
 
+	void mouseUp(const MouseEvent & e) override;
+
 	void mouseDrag(const MouseEvent & e) override;
 	void mouseWheelMove(const MouseEvent& e, const MouseWheelDetails& wheel) override;
 
@@ -53,7 +55,17 @@ private:
 	const int MAX_MINOR_GRIDLINES = 9;
 	const float ARROW_WIDTH = 0.1f;
 	const float ARROW_LENGTH = 0.1f;
+	const float CLICK_EPSILON = 0.2f;
 
+	enum ClickableGraphObjects
+	{
+		nothingId = 0,
+		phiVectorId = 1,  
+		positiveThetaVectorId = 2,
+		negativeThetaVectorId = 3,
+	};
+
+	ClickableGraphObjects clickedOn_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Gridlines)
 };
