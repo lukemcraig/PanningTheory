@@ -42,6 +42,8 @@ private:
 	Gridlines gridlines_;
 	MatrixRenderer<dsp::Matrix<float>> LMatrixRenderer_;
 	MatrixRenderer<dsp::Matrix<float>> pMatrixRenderer_;
+	MatrixRenderer<dsp::Matrix<float>> gainsMatrixRenderer_;
+	MatrixRenderer<dsp::Matrix<float>> gainsScaledMatrixRenderer_;
 
 	Slider panAngleSlider_;
 

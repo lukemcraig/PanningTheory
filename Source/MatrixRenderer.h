@@ -22,11 +22,11 @@ public:
 	 MatrixRenderer();
 	 ~MatrixRenderer();
 	
-	 void setMatrixToRender(MatrixType* matPointer);
+	void setMatrixToRender(MatrixType* matPointer);
 
-	 void paint (Graphics&) override;
+	void paint (Graphics&) override;
 	
-	 void resized() override;
+	void resized() override;
 
 private:
 	MatrixType* matrixToRender;
