@@ -87,17 +87,21 @@ void MatrixRenderer<MatrixType>::drawMatrixValues(juce::Graphics & g, float xOff
 			auto cellTrans = AffineTransform().scaled(width, height).translated(col*width, row*height);
 			g.addTransform(cellTrans);
 
-			auto cellShrink = AffineTransform().scaled(1,1);
+			auto cellShrink = AffineTransform().scaled(.5f,.5f);
 			g.addTransform(cellShrink);
 			auto textRect = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
+			g.setColour(Colours::aliceblue);
 			g.drawRect(textRect, 0.01f);
 			//Font newFont(1.0f);
 			//newFont.setHeightWithoutChangingWidth(.25f);	
-
-			auto textCorrection = AffineTransform().scaled(1.0f/aspect, 1);
+			//.translated(.25f, 0)
+			auto textCorrection = AffineTransform().scaled(height/aspect, width);
 			g.addTransform(textCorrection);
+			g.setColour(Colours::deeppink);
+			g.drawRect(textRect, 0.01f);
+			g.setColour(Colours::white);
 			g.setFont(0.5f);
-			g.drawText(String(matrixToRender->operator()(row, col), 2), textRect, Justification::horizontallyCentred, true);
+			g.drawText(String(matrixToRender->operator()(row, col), 2), textRect, Justification::centred, true);
 			
 			g.addTransform(textCorrection.inverted());
 			g.addTransform(cellShrink.inverted());
