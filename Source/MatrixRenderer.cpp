@@ -62,8 +62,8 @@ void MatrixRenderer::drawMatrixValues(juce::Graphics & g, float xOffset)
 	auto offsetCenterTransform = AffineTransform().translated(1.0f - xOffset, 0);
 	g.addTransform(offsetCenterTransform);
 
-	auto nCol = L_.getNumColumns();
-	auto nRow = L_.getNumRows();
+	auto nCol = L_->getNumColumns();
+	auto nRow = L_->getNumRows();
 	auto height = 1.0f / nRow;
 	auto width = 1.0f / nCol;
 
@@ -77,7 +77,7 @@ void MatrixRenderer::drawMatrixValues(juce::Graphics & g, float xOffset)
 			g.addTransform(cellShrink);
 
 			auto textRect = Rectangle<float>(0.5, 0.5, 1, 1);
-			g.drawText(String(L_(row, col), 2), textRect, Justification::centred, true);
+			g.drawText(String(L_->operator()(row, col), 2), textRect, Justification::centred, true);
 
 			g.addTransform(cellShrink.inverted());
 			g.addTransform(cellTrans.inverted());

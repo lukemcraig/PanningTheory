@@ -20,7 +20,7 @@ class MatrixRenderer    : public Component
 public:
     MatrixRenderer();
     ~MatrixRenderer();
-	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
+	dsp::Matrix<float>* L_;
     void paint (Graphics&) override;
 
 	void drawBrackets(juce::Graphics & g, float xOffset);

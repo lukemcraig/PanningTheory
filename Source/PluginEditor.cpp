@@ -54,7 +54,8 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	addAndMakeVisible(g2sSlider_);
 
 	addAndMakeVisible(gridlines_);
-	addAndMakeVisible(mathRenderer_);
+	LMatrixRenderer_.L_ = &L_;
+	addAndMakeVisible(LMatrixRenderer_);
 
 	startTimer(30);
 }
@@ -82,7 +83,7 @@ void PanningTheoryAudioProcessorEditor::resized()
 	g2sSlider_.setBounds(260, 0, 60, 400);
 
 	gridlines_.setBounds(350, 0, 600, 600);
-	mathRenderer_.setBounds(20, 420, 300, 200);
+	LMatrixRenderer_.setBounds(20, 420, 300, 200);
 }
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
@@ -105,11 +106,6 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 	L_(1, 0) = gridlines_.l21_;
 	L_(1, 1) = gridlines_.l22_;
 
-	// TODO memory
-	//mathRenderer_.L_ = dsp::Matrix<float>(L_);
-	mathRenderer_.L_ = L_;
-	mathRenderer_.repaint();
-
 	panAngleSlider_.setValue(radiansToDegrees(panAngle_), dontSendNotification);
 	calculateGains();
 	g1Slider_.setValue(gains_(0, 0), dontSendNotification);
@@ -124,6 +120,8 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 
 	gridlines_.g1s_ = gainsScaled_(0, 0);
 	gridlines_.g2s_ = gainsScaled_(0, 1);
+
+	LMatrixRenderer_.repaint();
 }
 
 void PanningTheoryAudioProcessorEditor::calculateScaledGains() {
