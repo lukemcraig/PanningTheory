@@ -45,7 +45,6 @@ private:
 	Slider g2Slider_;
 	Slider g1sSlider_;
 	Slider g2sSlider_;
-	float speakerAngle_;
 	float panAngle_;
 
 	dsp::Matrix<float> p_ = dsp::Matrix<float>(1, 2);

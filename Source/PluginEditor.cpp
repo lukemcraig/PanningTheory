@@ -103,7 +103,6 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 	L_(1, 0) = gridlines_.l21_;
 	L_(1, 1) = gridlines_.l22_;
 
-	speakerAngle_ = gridlines_.speakerAngle_;
 	panAngleSlider_.setValue(radiansToDegrees(panAngle_), dontSendNotification);
 	calculateGains();
 	g1Slider_.setValue(gains_(0, 0), dontSendNotification);

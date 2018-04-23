@@ -36,7 +36,7 @@ public:
 	// TODO getters, setters
 	float zoomRatio_;
 	float panAngle_;
-	float speakerAngle_ = float_Pi / 4.0f;
+
 	float g1s_;
 	float g2s_;
 	float p1_;
@@ -51,6 +51,8 @@ private:
 	AffineTransform uvTransform_;
 	AffineTransform radiusTransform_;
 	AffineTransform polarLineTransform_;
+	float speakerAngle_;
+	float speakerAngle2_;
 
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 	void DrawPolarGrid(juce::Graphics & g);
