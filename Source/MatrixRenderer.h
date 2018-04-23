@@ -29,12 +29,12 @@ public:
 	 void resized() override;
 
 private:
-	MatrixType* L_;
+	MatrixType* matrixToRender;
 	AffineTransform uvTransform_;
 
 	Path getMatrixBracket(bool rightBracket = false);
-	 void drawBrackets(juce::Graphics & g, float xOffset);
-	 void drawMatrixValues(juce::Graphics & g, float xOffset);
+	void drawBrackets(juce::Graphics & g, float xOffset);
+	void drawMatrixValues(juce::Graphics & g, float xOffset);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MatrixRenderer)
 };
