@@ -73,9 +73,6 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
 
 void PanningTheoryAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
-	
 	panAngleSlider_.setBounds(40, 0, 40, 400);
 	g1Slider_.setBounds(80, 0, 60, 400);
 	g2Slider_.setBounds(140, 0, 60, 400);
@@ -128,21 +125,13 @@ void PanningTheoryAudioProcessorEditor::calculateScaledGains() {
 	gainsScaled_ = gains_ * (1.0f/ gLength);
 }
 
-void PanningTheoryAudioProcessorEditor::calculateGains() {	
-	gains_(0,0) = calculateLeftGain(panAngle_, speakerAngle_);
-	gains_(0,1) = calculateRightGain(panAngle_, speakerAngle_);	
-}
-
-void PanningTheoryAudioProcessorEditor::calculateGains2() {
-
-}
-
-float PanningTheoryAudioProcessorEditor::calculateLeftGain(float phi, float theta)
-{
-	return (cos(phi)*sin(theta) + sin(phi)*cos(theta)) / (2.0f * cos(theta) * sin(theta));
-}
-
-float PanningTheoryAudioProcessorEditor::calculateRightGain(float phi, float theta)
-{
-	return (cos(phi)*sin(theta) - sin(phi)*cos(theta)) / (2.0f * cos(theta) * sin(theta));
+void PanningTheoryAudioProcessorEditor::calculateGains() {
+	auto determinant = L_(0, 0)*L_(1, 1) - L_(1, 0)*L_(0, 1);
+	auto inverseDeterminant = 1.0f / determinant;
+	auto inverseL = dsp::Matrix<float>(L_);	
+	inverseL(0, 0) = L_(1,1);
+	inverseL(1, 1) = L_(0, 0);
+	inverseL(0, 1) *= -1;
+	inverseL(1, 0) *= -1;
+	gains_ = p_ * inverseDeterminant * inverseL;
 }

@@ -34,9 +34,6 @@ public:
 
 private:
 	void calculateGains();
-	void calculateGains2();
-	static float calculateLeftGain(float phi, float theta);
-	static float calculateRightGain(float phi, float theta);
 	void calculateScaledGains();
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
