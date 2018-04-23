@@ -43,10 +43,11 @@ void MathRenderer::paint (Graphics& g)
 	uvTransform_ = AffineTransform();
 	auto lb = getLocalBounds();
 	// [0.0,height]-> [0.0,1.0]
-	uvTransform_ = uvTransform_.scaled(lb.getWidth(), lb.getHeight());
-	// center the origin
+	uvTransform_ = uvTransform_.scaled(lb.getHeight(), lb.getHeight());	
 	g.addTransform(uvTransform_);
-	auto centerTransform = AffineTransform().translated(0.5f, 0.5f);
+	auto xOffset = 0.5f * ((float)lb.getWidth() / lb.getHeight());
+	// center the origin
+	auto centerTransform = AffineTransform().translated(xOffset, 0.5f);
 	g.addTransform(centerTransform);
 
 	auto leftBracket = getMatrixBracket();
@@ -57,8 +58,8 @@ void MathRenderer::paint (Graphics& g)
 	g.strokePath(rightBracket, PathStrokeType(thickness));
 
 	g.addTransform(centerTransform.inverted());
-	//auto offsetCenterTransform = AffineTransform().translated(0, -0.25f);
-	//g.addTransform(offsetCenterTransform);
+	auto offsetCenterTransform = AffineTransform().translated(1.0f-xOffset,0);
+	g.addTransform(offsetCenterTransform);
 	auto nCol = L_.getNumColumns();
 	auto nRow = L_.getNumRows();
 	auto height = 1.0f / nRow;
@@ -76,7 +77,7 @@ void MathRenderer::paint (Graphics& g)
 			auto textRect = Rectangle<float>(0.5, 0.5, 1, 1);
 			//textRect.reduce(0.1f, 0.1f);
 			g.drawRect(textRect, 0.01f);
-			g.setFont(.4);			
+			g.setFont(.4f);			
 			g.drawText(String(L_(row, col)), textRect, Justification::centred,true);
 			g.addTransform(cellShrink.inverted());
 			g.addTransform(cellTrans.inverted());
