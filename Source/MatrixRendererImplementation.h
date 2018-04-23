@@ -45,10 +45,11 @@ void MatrixRenderer<MatrixType>::paint (Graphics& g)
 	// [0.0,height]-> [0.0,1.0]
 	uvTransform_ = uvTransform_.scaled(lb.getHeight(), lb.getHeight());	
 	g.addTransform(uvTransform_);
-
-	auto xOffset = 0.5f * ((float)lb.getWidth() / lb.getHeight());
+	auto aspect = ((float)lb.getWidth() / lb.getHeight());
+	//aspect = 1.0f;
+	auto xOffset = 0.5f * aspect;
 	drawBrackets(g, xOffset);
-	drawMatrixValues(g, xOffset);
+	drawMatrixValues(g, xOffset, aspect);
 }
 
 template<typename MatrixType>
@@ -69,9 +70,9 @@ void MatrixRenderer<MatrixType>::drawBrackets(juce::Graphics & g, float xOffset)
 }
 
 template<typename MatrixType>
-void MatrixRenderer<MatrixType>::drawMatrixValues(juce::Graphics & g, float xOffset)
+void MatrixRenderer<MatrixType>::drawMatrixValues(juce::Graphics & g, float xOffset, float aspect)
 {
-	auto offsetCenterTransform = AffineTransform().translated(1.0f - xOffset, 0);
+	auto offsetCenterTransform = AffineTransform().translated(xOffset-.5f, 0);
 	g.addTransform(offsetCenterTransform);
 
 	auto nCol = matrixToRender->getNumColumns();

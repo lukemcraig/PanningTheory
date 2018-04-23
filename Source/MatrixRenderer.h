@@ -34,7 +34,7 @@ private:
 
 	Path getMatrixBracket(bool rightBracket = false);
 	void drawBrackets(juce::Graphics & g, float xOffset);
-	void drawMatrixValues(juce::Graphics & g, float xOffset);
+	void drawMatrixValues(juce::Graphics & g, float xOffset, float aspect);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MatrixRenderer)
 };
