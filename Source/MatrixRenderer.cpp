@@ -23,6 +23,11 @@ MatrixRenderer::~MatrixRenderer()
 {
 }
 
+void MatrixRenderer::setMatrixToRender(dsp::Matrix<float>* matPointer)
+{
+	L_ = matPointer;
+}
+
 void MatrixRenderer::paint (Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
