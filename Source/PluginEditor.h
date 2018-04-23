@@ -40,10 +40,10 @@ private:
     // access the processor object that created it.
     PanningTheoryAudioProcessor& processor;
 	Gridlines gridlines_;
-	MatrixRenderer<dsp::Matrix<float>> LMatrixRenderer_;
-	MatrixRenderer<dsp::Matrix<float>> pMatrixRenderer_;
-	MatrixRenderer<dsp::Matrix<float>> gainsMatrixRenderer_;
-	MatrixRenderer<dsp::Matrix<float>> gainsScaledMatrixRenderer_;
+	MatrixRenderer LMatrixRenderer_;
+	//MatrixRenderer pMatrixRenderer_;
+	//MatrixRenderer gainsMatrixRenderer_;
+	//MatrixRenderer gainsScaledMatrixRenderer_;
 
 	Slider panAngleSlider_;
 

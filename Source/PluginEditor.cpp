@@ -55,17 +55,17 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 
 	addAndMakeVisible(gridlines_);
 
-	LMatrixRenderer_.setMatrixToRender(&L_);
+	LMatrixRenderer_.matrixToRender = &L_;
 	addAndMakeVisible(LMatrixRenderer_);
 
-	pMatrixRenderer_.setMatrixToRender(&p_);
-	addAndMakeVisible(pMatrixRenderer_);
+	//pMatrixRenderer_.setMatrixToRender(&p_);
+	//addAndMakeVisible(pMatrixRenderer_);
 
-	gainsMatrixRenderer_.setMatrixToRender(&gains_);
-	addAndMakeVisible(gainsMatrixRenderer_);
+	//gainsMatrixRenderer_.setMatrixToRender(&gains_);
+	//addAndMakeVisible(gainsMatrixRenderer_);
 
-	gainsScaledMatrixRenderer_.setMatrixToRender(&gainsScaled_);
-	addAndMakeVisible(gainsScaledMatrixRenderer_);
+	//gainsScaledMatrixRenderer_.setMatrixToRender(&gainsScaled_);
+	//addAndMakeVisible(gainsScaledMatrixRenderer_);
 
 	startTimer(30);
 }
@@ -94,9 +94,9 @@ void PanningTheoryAudioProcessorEditor::resized()
 
 	gridlines_.setBounds(350, 0, 600, 600);
 	LMatrixRenderer_.setBounds(20, 420, 300, 200);
-	pMatrixRenderer_.setBounds(20, 640, 200, 200);
+	/*pMatrixRenderer_.setBounds(20, 640, 200, 200);
 	gainsMatrixRenderer_.setBounds(340, 640, 200, 200);
-	gainsScaledMatrixRenderer_.setBounds(640, 640, 200, 200);
+	gainsScaledMatrixRenderer_.setBounds(640, 640, 200, 200);*/
 }
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
@@ -135,9 +135,9 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 	gridlines_.g2s_ = gainsScaled_(0, 1);
 
 	LMatrixRenderer_.repaint();
-	pMatrixRenderer_.repaint();
+	/*pMatrixRenderer_.repaint();
 	gainsMatrixRenderer_.repaint();
-	gainsScaledMatrixRenderer_.repaint();
+	gainsScaledMatrixRenderer_.repaint();*/
 }
 
 void PanningTheoryAudioProcessorEditor::calculateScaledGains() {
