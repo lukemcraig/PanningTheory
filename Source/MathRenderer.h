@@ -22,6 +22,8 @@ public:
     ~MathRenderer();
 	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
     void paint (Graphics&) override;
+
+	void drawMatrixValues(juce::Graphics & g, float xOffset);
 	
     void resized() override;
 

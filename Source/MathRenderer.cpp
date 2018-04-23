@@ -25,27 +25,24 @@ MathRenderer::~MathRenderer()
 
 void MathRenderer::paint (Graphics& g)
 {
-    /* This demo code just fills the component's background and
-       draws some placeholder text to get you started.
-
-       You should replace everything in this method with your own
-       drawing code..
-    */
-
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
-
-    g.setColour (Colours::dimgrey);
-    g.drawRect (getLocalBounds(), 1);   // draw an outline around the component
 
     g.setColour (Colours::white);
 
+	auto lb = getLocalBounds();
 	// transform into uv coords
 	uvTransform_ = AffineTransform();
-	auto lb = getLocalBounds();
 	// [0.0,height]-> [0.0,1.0]
 	uvTransform_ = uvTransform_.scaled(lb.getHeight(), lb.getHeight());	
 	g.addTransform(uvTransform_);
+
 	auto xOffset = 0.5f * ((float)lb.getWidth() / lb.getHeight());
+	drawBrackets(g, xOffset);
+	drawMatrixValues(g, xOffset);
+}
+
+void MathRenderer::drawBrackets(juce::Graphics & g, float xOffset)
+{
 	// center the origin
 	auto centerTransform = AffineTransform().translated(xOffset, 0.5f);
 	g.addTransform(centerTransform);
@@ -53,39 +50,40 @@ void MathRenderer::paint (Graphics& g)
 	auto leftBracket = getMatrixBracket();
 	auto rightBracket = getMatrixBracket(true);
 
-	float thickness = .05f;
-	g.strokePath(leftBracket,PathStrokeType(thickness));
+	float thickness = .025f;
+	g.strokePath(leftBracket, PathStrokeType(thickness));
 	g.strokePath(rightBracket, PathStrokeType(thickness));
 
 	g.addTransform(centerTransform.inverted());
-	auto offsetCenterTransform = AffineTransform().translated(1.0f-xOffset,0);
+}
+
+void MathRenderer::drawMatrixValues(juce::Graphics & g, float xOffset)
+{
+	auto offsetCenterTransform = AffineTransform().translated(1.0f - xOffset, 0);
 	g.addTransform(offsetCenterTransform);
+
 	auto nCol = L_.getNumColumns();
 	auto nRow = L_.getNumRows();
 	auto height = 1.0f / nRow;
-	auto width = 1.0f/ nCol;
+	auto width = 1.0f / nCol;
 
-	for (int col = 0; col < nCol; col++) {	
-		for (int row = 0; row < nRow; row++) {	
-			//auto textRect = Rectangle<float>(col*width, row*height, width, height);
+	g.setFont(0.5f);
+	for (int col = 0; col < nCol; col++) {
+		for (int row = 0; row < nRow; row++) {
 			auto cellTrans = AffineTransform().scaled(width, height).translated(col*width, row*height);
-			//auto cellShift = AffineTransform().translated(col*width, row*height);
-			//g.addTransform(cellShift);
 			g.addTransform(cellTrans);
+
 			auto cellShrink = AffineTransform().scaled(.5f, .5f);
 			g.addTransform(cellShrink);
+
 			auto textRect = Rectangle<float>(0.5, 0.5, 1, 1);
-			//textRect.reduce(0.1f, 0.1f);
-			g.drawRect(textRect, 0.01f);
-			g.setFont(.4f);			
-			g.drawText(String(L_(row, col)), textRect, Justification::centred,true);
+			g.drawText(String(L_(row, col), 2), textRect, Justification::centred, true);
+
 			g.addTransform(cellShrink.inverted());
 			g.addTransform(cellTrans.inverted());
-			//g.addTransform(cellShift.inverted());
 		}
 	}
-
-	//g.addTransform(uvTransform_.inverted());
+	g.addTransform(offsetCenterTransform.inverted());
 }
 
 Path MathRenderer::getMatrixBracket(bool rightBracket) {

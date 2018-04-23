@@ -105,6 +105,7 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 	L_(1, 0) = gridlines_.l21_;
 	L_(1, 1) = gridlines_.l22_;
 
+	// TODO memory
 	//mathRenderer_.L_ = dsp::Matrix<float>(L_);
 	mathRenderer_.L_ = L_;
 	mathRenderer_.repaint();
