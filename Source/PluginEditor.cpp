@@ -94,9 +94,9 @@ void PanningTheoryAudioProcessorEditor::resized()
 
 	gridlines_.setBounds(350, 0, 600, 600);
 	LMatrixRenderer_.setBounds(20, 420, 300, 200);
-	pMatrixRenderer_.setBounds(20, 640, 300, 200);
-	gainsMatrixRenderer_.setBounds(340, 640, 300, 200);
-	gainsScaledMatrixRenderer_.setBounds(640, 640, 300, 200);
+	pMatrixRenderer_.setBounds(20, 640, 200, 200);
+	gainsMatrixRenderer_.setBounds(340, 640, 200, 200);
+	gainsScaledMatrixRenderer_.setBounds(640, 640, 200, 200);
 }
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
