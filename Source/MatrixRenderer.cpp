@@ -1,39 +1,30 @@
 /*
   ==============================================================================
 
-    MatrixRendererImplementation.h
+    MatrixRenderer.cpp
     Created: 22 Apr 2018 8:56:43pm
     Author:  Luke
 
   ==============================================================================
 */
 
-#pragma once
-
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "MatrixRenderer.h"
 
 //==============================================================================
-template<typename MatrixType>
-MatrixRenderer<MatrixType>::MatrixRenderer()
+
+MatrixRenderer::MatrixRenderer(dsp::Matrix<float>& m): matrixToRender(m)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
 }
 
-template<typename MatrixType>
-MatrixRenderer<MatrixType>::~MatrixRenderer()
+MatrixRenderer::~MatrixRenderer()
 {
 }
 
-template<typename MatrixType>
-void MatrixRenderer<MatrixType>::setMatrixToRender(MatrixType* matPointer)
-{
-	matrixToRender = matPointer;
-}
-
-template<typename MatrixType>
-void MatrixRenderer<MatrixType>::paint (Graphics& g)
+void MatrixRenderer::paint (Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
 
@@ -53,8 +44,8 @@ void MatrixRenderer<MatrixType>::paint (Graphics& g)
 	drawMatrixValues(g, xOffset, aspect);
 }
 
-template<typename MatrixType>
-void MatrixRenderer<MatrixType>::drawBrackets(juce::Graphics & g, float xOffset)
+
+void MatrixRenderer::drawBrackets(juce::Graphics & g, float xOffset)
 {
 	// center the origin
 	auto centerTransform = AffineTransform().translated(xOffset, 0.5f);
@@ -70,14 +61,14 @@ void MatrixRenderer<MatrixType>::drawBrackets(juce::Graphics & g, float xOffset)
 	g.addTransform(centerTransform.inverted());
 }
 
-template<typename MatrixType>
-void MatrixRenderer<MatrixType>::drawMatrixValues(juce::Graphics & g, float xOffset, float aspect)
+
+void MatrixRenderer::drawMatrixValues(juce::Graphics & g, float xOffset, float aspect)
 {
 	auto offsetCenterTransform = AffineTransform().translated(xOffset-.5f, 0);
 	g.addTransform(offsetCenterTransform);
 
-	auto nCol = matrixToRender->getNumColumns();
-	auto nRow = matrixToRender->getNumRows();
+	auto nCol = matrixToRender.getNumColumns();
+	auto nRow = matrixToRender.getNumRows();
 	auto height = 1.0f / nRow;
 	auto width = 1.0f / nCol;
 
@@ -101,7 +92,7 @@ void MatrixRenderer<MatrixType>::drawMatrixValues(juce::Graphics & g, float xOff
 			g.drawRect(textRect, 0.01f);
 			g.setColour(Colours::white);
 			g.setFont(0.5f);
-			g.drawText(String(matrixToRender->operator()(row, col), 2), textRect, Justification::centred, true);
+			g.drawText(String(matrixToRender(row, col), 2), textRect, Justification::centred, true);
 			
 			g.addTransform(textCorrection.inverted());
 			g.addTransform(cellShrink.inverted());
@@ -111,8 +102,8 @@ void MatrixRenderer<MatrixType>::drawMatrixValues(juce::Graphics & g, float xOff
 	g.addTransform(offsetCenterTransform.inverted());
 }
 
-template<typename MatrixType>
-Path MatrixRenderer<MatrixType>::getMatrixBracket(bool rightBracket) {
+
+Path MatrixRenderer::getMatrixBracket(bool rightBracket) {
 	auto linePath = Path();
 	float depth = .1f;	
 
@@ -131,8 +122,8 @@ Path MatrixRenderer<MatrixType>::getMatrixBracket(bool rightBracket) {
 	return linePath;
 }
 
-template<typename MatrixType>
-void MatrixRenderer<MatrixType>::resized()
+
+void MatrixRenderer::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..

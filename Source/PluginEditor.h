@@ -40,10 +40,6 @@ private:
     // access the processor object that created it.
     PanningTheoryAudioProcessor& processor;
 	Gridlines gridlines_;
-	MatrixRenderer<dsp::Matrix<float>> LMatrixRenderer_;
-	MatrixRenderer<dsp::Matrix<float>> pMatrixRenderer_;
-	MatrixRenderer<dsp::Matrix<float>> gainsMatrixRenderer_;
-	MatrixRenderer<dsp::Matrix<float>> gainsScaledMatrixRenderer_;
 
 	Slider panAngleSlider_;
 
@@ -53,10 +49,15 @@ private:
 	Slider g2sSlider_;
 	float panAngle_;
 
-	dsp::Matrix<float> p_ = dsp::Matrix<float>(1, 2);
 	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
+	dsp::Matrix<float> p_ = dsp::Matrix<float>(1, 2);
 	dsp::Matrix<float> gains_ = dsp::Matrix<float>(1, 2);
 	dsp::Matrix<float> gainsScaled_ = dsp::Matrix<float>(1, 2);
+
+	MatrixRenderer* LMatrixRenderer_ = new MatrixRenderer(L_);
+	MatrixRenderer* pMatrixRenderer_ = new MatrixRenderer(p_);
+	MatrixRenderer* gainsMatrixRenderer_ = new MatrixRenderer(gains_);
+	MatrixRenderer* gainsScaledMatrixRenderer_ = new MatrixRenderer(gainsScaled_);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };

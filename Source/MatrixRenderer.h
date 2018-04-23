@@ -15,21 +15,19 @@
 //==============================================================================
 /*
 */
-template<typename MatrixType>
+
 class MatrixRenderer    : public Component
 {
 public:
-	 MatrixRenderer();
+	 MatrixRenderer(dsp::Matrix<float>& m);
 	 ~MatrixRenderer();
-	
-	void setMatrixToRender(MatrixType* matPointer);
 
 	void paint (Graphics&) override;
 	
 	void resized() override;
 
 private:
-	MatrixType* matrixToRender;
+	dsp::Matrix<float>& matrixToRender;
 	AffineTransform uvTransform_;
 
 	Path getMatrixBracket(bool rightBracket = false);
@@ -38,5 +36,3 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MatrixRenderer)
 };
-
-#include "MatrixRendererImplementation.h"
