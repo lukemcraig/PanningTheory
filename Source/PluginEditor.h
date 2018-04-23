@@ -13,7 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "Gridlines.h"
-#include "MathRenderer.h"
+#include "MatrixRenderer.h"
 
 //==============================================================================
 /**
@@ -40,7 +40,7 @@ private:
     // access the processor object that created it.
     PanningTheoryAudioProcessor& processor;
 	Gridlines gridlines_;
-	MathRenderer mathRenderer_;
+	MatrixRenderer mathRenderer_;
 
 	Slider panAngleSlider_;
 

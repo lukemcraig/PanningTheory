@@ -8,9 +8,10 @@
               reportAppUsage="0">
   <MAINGROUP id="uXuwnq" name="PanningTheory">
     <GROUP id="{8A270411-4B34-5BF6-04A8-97F620EBCFFB}" name="Source">
-      <FILE id="JebNwy" name="MathRenderer.cpp" compile="1" resource="0"
-            file="Source/MathRenderer.cpp"/>
-      <FILE id="gYQYCC" name="MathRenderer.h" compile="0" resource="0" file="Source/MathRenderer.h"/>
+      <FILE id="JebNwy" name="MatrixRenderer.cpp" compile="1" resource="0"
+            file="Source/MatrixRenderer.cpp"/>
+      <FILE id="gYQYCC" name="MatrixRenderer.h" compile="0" resource="0"
+            file="Source/MatrixRenderer.h"/>
       <FILE id="obYdnT" name="Gridlines.cpp" compile="1" resource="0" file="Source/Gridlines.cpp"/>
       <FILE id="sXc4we" name="Gridlines.h" compile="0" resource="0" file="Source/Gridlines.h"/>
       <FILE id="V6crwO" name="PluginProcessor.cpp" compile="1" resource="0"

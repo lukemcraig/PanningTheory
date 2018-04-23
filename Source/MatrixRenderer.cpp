@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    MathRenderer.cpp
+    MatrixRenderer.cpp
     Created: 22 Apr 2018 8:56:43pm
     Author:  Luke
 
@@ -9,21 +9,21 @@
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "MathRenderer.h"
+#include "MatrixRenderer.h"
 
 //==============================================================================
-MathRenderer::MathRenderer()
+MatrixRenderer::MatrixRenderer()
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
 }
 
-MathRenderer::~MathRenderer()
+MatrixRenderer::~MatrixRenderer()
 {
 }
 
-void MathRenderer::paint (Graphics& g)
+void MatrixRenderer::paint (Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
 
@@ -41,7 +41,7 @@ void MathRenderer::paint (Graphics& g)
 	drawMatrixValues(g, xOffset);
 }
 
-void MathRenderer::drawBrackets(juce::Graphics & g, float xOffset)
+void MatrixRenderer::drawBrackets(juce::Graphics & g, float xOffset)
 {
 	// center the origin
 	auto centerTransform = AffineTransform().translated(xOffset, 0.5f);
@@ -57,7 +57,7 @@ void MathRenderer::drawBrackets(juce::Graphics & g, float xOffset)
 	g.addTransform(centerTransform.inverted());
 }
 
-void MathRenderer::drawMatrixValues(juce::Graphics & g, float xOffset)
+void MatrixRenderer::drawMatrixValues(juce::Graphics & g, float xOffset)
 {
 	auto offsetCenterTransform = AffineTransform().translated(1.0f - xOffset, 0);
 	g.addTransform(offsetCenterTransform);
@@ -86,7 +86,7 @@ void MathRenderer::drawMatrixValues(juce::Graphics & g, float xOffset)
 	g.addTransform(offsetCenterTransform.inverted());
 }
 
-Path MathRenderer::getMatrixBracket(bool rightBracket) {
+Path MatrixRenderer::getMatrixBracket(bool rightBracket) {
 	auto linePath = Path();
 	float depth = .1f;	
 
@@ -105,7 +105,7 @@ Path MathRenderer::getMatrixBracket(bool rightBracket) {
 	return linePath;
 }
 
-void MathRenderer::resized()
+void MatrixRenderer::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
