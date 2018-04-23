@@ -63,16 +63,24 @@ void MathRenderer::paint (Graphics& g)
 	auto nRow = L_.getNumRows();
 	auto height = 1.0f / nRow;
 	auto width = 1.0f/ nCol;
-	//auto totalWidth = width* nCol;
+
 	for (int col = 0; col < nCol; col++) {	
 		for (int row = 0; row < nRow; row++) {	
 			//auto textRect = Rectangle<float>(col*width, row*height, width, height);
-			auto textRect = Rectangle<float>(col*width, row*height, width, height);
-			textRect.reduce(0.1f, 0.1f);
+			auto cellTrans = AffineTransform().scaled(width, height).translated(col*width, row*height);
+			//auto cellShift = AffineTransform().translated(col*width, row*height);
+			//g.addTransform(cellShift);
+			g.addTransform(cellTrans);
+			auto cellShrink = AffineTransform().scaled(.5f, .5f);
+			g.addTransform(cellShrink);
+			auto textRect = Rectangle<float>(0.5, 0.5, 1, 1);
+			//textRect.reduce(0.1f, 0.1f);
 			g.drawRect(textRect, 0.01f);
-			g.setFont(0.1f);
-			
+			g.setFont(.4);			
 			g.drawText(String(L_(row, col)), textRect, Justification::centred,true);
+			g.addTransform(cellShrink.inverted());
+			g.addTransform(cellTrans.inverted());
+			//g.addTransform(cellShift.inverted());
 		}
 	}
 
