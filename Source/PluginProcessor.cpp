@@ -151,7 +151,7 @@ void PanningTheoryAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     auto* channelData1 = buffer.getWritePointer (0);
 	for (int sample = 0; sample < numSamples; sample++)
 	{
-		channelData1[sample] *= g1s_;		
+		channelData1[sample] *= g1s_;
 	}
 
 	auto* channelData2 = buffer.getWritePointer(1);

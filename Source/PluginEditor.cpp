@@ -18,7 +18,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (1000, 600);
+    setSize (1000, 700);
 	setResizable(true, true);	
 	setResizeLimits(300, 250, 10000, 10000);
 
@@ -54,6 +54,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	addAndMakeVisible(g2sSlider_);
 
 	addAndMakeVisible(gridlines_);
+	addAndMakeVisible(mathRenderer_);
 
 	startTimer(30);
 }
@@ -81,6 +82,7 @@ void PanningTheoryAudioProcessorEditor::resized()
 	g2sSlider_.setBounds(260, 0, 60, 400);
 
 	gridlines_.setBounds(350, 0, 600, 600);
+	mathRenderer_.setBounds(20, 420, 300, 200);
 }
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
@@ -102,6 +104,10 @@ void PanningTheoryAudioProcessorEditor::timerCallback()
 	L_(0, 1) = gridlines_.l12_;
 	L_(1, 0) = gridlines_.l21_;
 	L_(1, 1) = gridlines_.l22_;
+
+	//mathRenderer_.L_ = dsp::Matrix<float>(L_);
+	mathRenderer_.L_ = L_;
+	mathRenderer_.repaint();
 
 	panAngleSlider_.setValue(radiansToDegrees(panAngle_), dontSendNotification);
 	calculateGains();
@@ -132,5 +138,5 @@ void PanningTheoryAudioProcessorEditor::calculateGains() {
 	inverseL(1, 1) = L_(0, 0);
 	inverseL(0, 1) *= -1;
 	inverseL(1, 0) *= -1;
-	gains_ = p_ * inverseDeterminant * inverseL;
+	gains_ = p_ * inverseDeterminant * inverseL;	
 }
