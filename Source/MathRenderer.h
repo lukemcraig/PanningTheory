@@ -23,6 +23,8 @@ public:
 	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
     void paint (Graphics&) override;
 
+	void drawBrackets(juce::Graphics & g, float xOffset);
+
 	void drawMatrixValues(juce::Graphics & g, float xOffset);
 	
     void resized() override;
