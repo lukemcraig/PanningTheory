@@ -19,15 +19,17 @@
 class MatrixRenderer    : public Component
 {
 public:
-	 MatrixRenderer(dsp::Matrix<float>& m);
+	 MatrixRenderer();
 	 ~MatrixRenderer();
 
 	void paint (Graphics&) override;
 	
 	void resized() override;
 
+	void setMatrixToRender(dsp::Matrix<float>* matrixToRender);
+
 private:
-	dsp::Matrix<float>& matrixToRender;
+	dsp::Matrix<float>* matrixToRender_;
 	AffineTransform uvTransform_;
 
 	Path getMatrixBracket(bool rightBracket = false);
