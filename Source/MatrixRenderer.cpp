@@ -69,11 +69,10 @@ void MatrixRenderer::drawMatrixValues(juce::Graphics & g, float xOffset, float a
 	auto offsetCenterTransform = AffineTransform().translated(xOffset-.5f, 0);
 	g.addTransform(offsetCenterTransform);
 
-	auto nCol = matrixToRender->getNumColumns();
-	auto nRow = matrixToRender->getNumRows();
+	auto nCol = matrixToRender_->getNumColumns();
+	auto nRow = matrixToRender_->getNumRows();
 	auto height = 1.0f / nRow;
 	auto width = 1.0f / nCol;
-
 
 	for (int col = 0; col < nCol; col++) {
 		for (int row = 0; row < nRow; row++) {
@@ -94,7 +93,7 @@ void MatrixRenderer::drawMatrixValues(juce::Graphics & g, float xOffset, float a
 			g.drawRect(textRect, 0.01f);
 			g.setColour(Colours::white);
 			g.setFont(0.5f);
-			g.drawText(String(matrixToRender->operator()(row, col), 2), textRect, Justification::centred, true);
+			g.drawText(String(matrixToRender_->operator()(row, col), 2), textRect, Justification::centred, true);
 			
 			g.addTransform(textCorrection.inverted());
 			g.addTransform(cellShrink.inverted());
@@ -130,4 +129,9 @@ void MatrixRenderer::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
 
+}
+
+void MatrixRenderer::setMatrixToRender(dsp::Matrix<float>* matrixToRender)
+{
+	matrixToRender_ = matrixToRender;
 }

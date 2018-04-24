@@ -41,9 +41,9 @@ private:
     PanningTheoryAudioProcessor& processor;
 	Gridlines gridlines_;
 	MatrixRenderer LMatrixRenderer_;
-	//MatrixRenderer pMatrixRenderer_;
-	//MatrixRenderer gainsMatrixRenderer_;
-	//MatrixRenderer gainsScaledMatrixRenderer_;
+	MatrixRenderer pMatrixRenderer_;
+	MatrixRenderer gainsMatrixRenderer_;
+	MatrixRenderer gainsScaledMatrixRenderer_;
 
 	Slider panAngleSlider_;
 

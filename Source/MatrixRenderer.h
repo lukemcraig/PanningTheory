@@ -26,9 +26,10 @@ public:
 	
 	void resized() override;
 
-	dsp::Matrix<float>* matrixToRender;
-private:
+	void setMatrixToRender(dsp::Matrix<float>* matrixToRender);
 
+private:
+	dsp::Matrix<float>* matrixToRender_;
 	AffineTransform uvTransform_;
 
 	Path getMatrixBracket(bool rightBracket = false);
