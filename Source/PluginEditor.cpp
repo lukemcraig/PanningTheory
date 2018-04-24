@@ -63,7 +63,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	gainsScaledMatrixRenderer_.setMatrixToRender(&gainsScaled_);
 	addAndMakeVisible(gainsScaledMatrixRenderer_);
 
-	svgFile_ = File("C:\\Users\\Luke\\Downloads\\g.svg");
+	svgFile_ = File("C:\\Users\\Luke\\Downloads\\gainlatex.svg");
 	svgdrawable_ = Drawable::createFromSVGFile(svgFile_);
 	startTimer(30);
 }
