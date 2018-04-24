@@ -28,7 +28,7 @@ MatrixRenderer::~MatrixRenderer()
 
 void MatrixRenderer::paint (Graphics& g)
 {
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
+    //g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));   // clear the background
 
     g.setColour (Colours::white);
 
@@ -135,3 +135,5 @@ void MatrixRenderer::setMatrixToRender(dsp::Matrix<float>* matrixToRender)
 {
 	matrixToRender_ = matrixToRender;
 }
+
+

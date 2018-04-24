@@ -28,6 +28,8 @@ public:
 
 	void setMatrixToRender(dsp::Matrix<float>* matrixToRender);
 
+	
+
 private:
 	dsp::Matrix<float>* matrixToRender_;
 	AffineTransform uvTransform_;

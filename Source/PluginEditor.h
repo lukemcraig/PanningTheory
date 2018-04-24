@@ -40,6 +40,7 @@ private:
     // access the processor object that created it.
     PanningTheoryAudioProcessor& processor;
 	Gridlines gridlines_;
+
 	MatrixRenderer LMatrixRenderer_;
 	MatrixRenderer pMatrixRenderer_;
 	MatrixRenderer gainsMatrixRenderer_;
@@ -57,6 +58,9 @@ private:
 	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
 	dsp::Matrix<float> gains_ = dsp::Matrix<float>(1, 2);
 	dsp::Matrix<float> gainsScaled_ = dsp::Matrix<float>(1, 2);
+
+	File svgFile_;
+	Drawable * svgdrawable_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };
