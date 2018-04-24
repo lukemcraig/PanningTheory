@@ -58,9 +58,10 @@ private:
 	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
 	dsp::Matrix<float> gains_ = dsp::Matrix<float>(1, 2);
 	dsp::Matrix<float> gainsScaled_ = dsp::Matrix<float>(1, 2);
+	dsp::Matrix<float> test_ = dsp::Matrix<float>(2, 3);
 
-	File svgFile_;
-	Drawable * svgdrawable_;
+	//File svgFile_;
+	//Drawable * svgdrawable_;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PanningTheoryAudioProcessorEditor)
 };

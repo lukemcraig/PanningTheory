@@ -60,17 +60,17 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	addAndMakeVisible(pMatrixRenderer_);
 	gainsMatrixRenderer_.setMatrixToRender(&gains_);
 	addAndMakeVisible(gainsMatrixRenderer_);
-	gainsScaledMatrixRenderer_.setMatrixToRender(&gainsScaled_);
+	gainsScaledMatrixRenderer_.setMatrixToRender(&test_);
 	addAndMakeVisible(gainsScaledMatrixRenderer_);
 
-	svgFile_ = File("C:\\Users\\Luke\\Downloads\\gainlatex.svg");
-	svgdrawable_ = Drawable::createFromSVGFile(svgFile_);
+	/*svgFile_ = File("C:\\Users\\Luke\\Downloads\\gainlatex.svg");
+	svgdrawable_ = Drawable::createFromSVGFile(svgFile_);*/
 	startTimer(30);
 }
 
 PanningTheoryAudioProcessorEditor::~PanningTheoryAudioProcessorEditor()
 {
-	svgdrawable_->~Drawable();
+	//svgdrawable_->~Drawable();
 }
 
 //==============================================================================
@@ -82,7 +82,7 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::white);
 	auto destArea = Rectangle< float >(getLocalBounds().toFloat());
 
-	svgdrawable_->drawWithin(g, destArea, RectanglePlacement::xLeft,0.5f);
+	//svgdrawable_->drawWithin(g, destArea, RectanglePlacement::xLeft,0.5f);
 }
 
 void PanningTheoryAudioProcessorEditor::resized()

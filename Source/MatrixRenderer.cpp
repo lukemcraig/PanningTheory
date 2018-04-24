@@ -43,6 +43,7 @@ void MatrixRenderer::paint (Graphics& g)
 	//auto xOffset = 0.5f * aspect;
 	auto xOffset = 0.5f;
 	drawBrackets(g, xOffset);
+	g.addTransform(uvTransform_.inverted());
 	drawMatrixValues(g, xOffset, aspect);
 }
 
@@ -66,41 +67,28 @@ void MatrixRenderer::drawBrackets(juce::Graphics & g, float xOffset)
 
 void MatrixRenderer::drawMatrixValues(juce::Graphics & g, float xOffset, float aspect)
 {
-	auto offsetCenterTransform = AffineTransform().translated(xOffset-.5f, 0);
-	g.addTransform(offsetCenterTransform);
+	auto arect = getLocalBounds().toFloat();
+	//auto rectpath = Path();
+	//rectpath.addRectangle(arect.reduced(10));
 
 	auto nCol = matrixToRender_->getNumColumns();
 	auto nRow = matrixToRender_->getNumRows();
-	auto height = 1.0f / nRow;
-	auto width = 1.0f / nCol;
-
+	auto cellHeight = (float)getLocalBounds().getHeight() / nRow;
+	auto cellWidth = (float)getLocalBounds().getWidth() / nCol;
+	
 	for (int col = 0; col < nCol; col++) {
-		for (int row = 0; row < nRow; row++) {
-			auto cellTrans = AffineTransform().scaled(width, height).translated(col*width, row*height);
-			g.addTransform(cellTrans);
-
-			auto cellShrink = AffineTransform().scaled(.5f,.5f);
-			g.addTransform(cellShrink);
-			auto textRect = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
-			g.setColour(Colours::aliceblue);
-			g.drawRect(textRect, 0.01f);
-			//Font newFont(1.0f);
-			//newFont.setHeightWithoutChangingWidth(.25f);	
-			//.translated(.25f, 0)
-			auto textCorrection = AffineTransform().scaled(height/aspect, width);
-			g.addTransform(textCorrection);
-			g.setColour(Colours::deeppink);
-			g.drawRect(textRect, 0.01f);
-			g.setColour(Colours::white);
-			g.setFont(0.5f);
-			g.drawText(String(matrixToRender_->operator()(row, col), 2), textRect, Justification::centred, true);
+		for (int row = 0; row < nRow; row++) {				
+			auto cellTrans = AffineTransform().scaled(1.0f / nCol, 1.0f / nRow);
+			auto cellTrans2 = cellTrans.translated(col*cellWidth, row*cellHeight);
 			
-			g.addTransform(textCorrection.inverted());
-			g.addTransform(cellShrink.inverted());
-			g.addTransform(cellTrans.inverted());
+			//g.strokePath(rectpath, PathStrokeType(1), cellTrans2);
+			g.setColour(Colours::white);
+			g.setFont(24);
+			
+			auto arect2 = arect.transformed(cellTrans2);
+			g.drawText(String(matrixToRender_->operator()(row, col), 2), arect2, Justification::centred, true);			
 		}
 	}
-	g.addTransform(offsetCenterTransform.inverted());
 }
 
 
