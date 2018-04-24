@@ -60,7 +60,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	addAndMakeVisible(pMatrixRenderer_);
 	gainsMatrixRenderer_.setMatrixToRender(&gains_);
 	addAndMakeVisible(gainsMatrixRenderer_);
-	gainsScaledMatrixRenderer_.setMatrixToRender(&test_);
+	gainsScaledMatrixRenderer_.setMatrixToRender(&gainsScaled_);
 	addAndMakeVisible(gainsScaledMatrixRenderer_);
 
 	/*svgFile_ = File("C:\\Users\\Luke\\Downloads\\gainlatex.svg");
@@ -87,18 +87,25 @@ void PanningTheoryAudioProcessorEditor::paint (Graphics& g)
 
 void PanningTheoryAudioProcessorEditor::resized()
 {
-	panAngleSlider_.setBounds(40, 0, 40, 400);
+	auto area = getLocalBounds();
+	area.reduce(10, 10);
+	gridlines_.setBounds(area.removeFromTop(500));
+	
+	/*panAngleSlider_.setBounds(40, 0, 40, 400);
 	g1Slider_.setBounds(80, 0, 60, 400);
 	g2Slider_.setBounds(140, 0, 60, 400);
 
 	g1sSlider_.setBounds(200, 0, 60, 400);
-	g2sSlider_.setBounds(260, 0, 60, 400);
+	g2sSlider_.setBounds(260, 0, 60, 400);	
+	*/
+	auto matrixRow = area.removeFromTop(200).reduced(0,10);
+	auto matrixRowElement = matrixRow.proportionOfWidth(1.0f/3.0f);
+	gainsMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f));
+	pMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f));
+	LMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f));
 
-	gridlines_.setBounds(350, 0, 600, 600);
-	LMatrixRenderer_.setBounds(20, 420, 300, 200);
-	pMatrixRenderer_.setBounds(20, 640, 200, 200);
-	gainsMatrixRenderer_.setBounds(340, 640, 200, 200);
-	gainsScaledMatrixRenderer_.setBounds(640, 640, 200, 200);
+	gainsScaledMatrixRenderer_.setBounds(area.removeFromTop(200).reduced(0, 10));
+	//gainsScaledMatrixRenderer_.setBounds(640, 640, 200, 200);
 }
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
