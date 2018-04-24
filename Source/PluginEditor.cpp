@@ -100,12 +100,13 @@ void PanningTheoryAudioProcessorEditor::resized()
 	*/
 	auto matrixRow = area.removeFromTop(200).reduced(0,10);
 	auto matrixRowElement = matrixRow.proportionOfWidth(1.0f/3.0f);
-	gainsMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f));
-	pMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f));
+	gainsMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f).reduced(20.0f, 40.0f));
+	pMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f).reduced(20.0f, 40.0f));
 	LMatrixRenderer_.setBounds(matrixRow.removeFromLeft(matrixRowElement).reduced(10.0f));
+	auto solutionRow = area.removeFromTop(200).reduced(0,10);
+	//solutionRow.removeFromLeft(matrixRowElement);
+	gainsScaledMatrixRenderer_.setBounds(solutionRow.removeFromLeft(matrixRowElement).reduced(10.0f).reduced(20.0f, 40.0f));
 
-	gainsScaledMatrixRenderer_.setBounds(area.removeFromTop(200).reduced(0, 10));
-	//gainsScaledMatrixRenderer_.setBounds(640, 640, 200, 200);
 }
 
 void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
