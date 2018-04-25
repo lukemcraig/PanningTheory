@@ -18,7 +18,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (1000, 1000);
+    setSize (1000, 750);
 	setResizable(true, true);	
 	setResizeLimits(300, 250, 10000, 10000);
 
@@ -52,6 +52,7 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
 	g2sSlider_.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 60);
 	g2sSlider_.setValue(0.0);
 	addAndMakeVisible(g2sSlider_);
+
 	addAndMakeVisible(gridlines_);
 	
 	LMatrixRenderer_.setMatrixToRender(&L_);
@@ -89,7 +90,7 @@ void PanningTheoryAudioProcessorEditor::resized()
 {
 	auto area = getLocalBounds();
 	area.reduce(10, 10);
-	gridlines_.setBounds(area.removeFromTop(500));
+	gridlines_.setBounds(area.removeFromTop(300));
 	
 	/*panAngleSlider_.setBounds(40, 0, 40, 400);
 	g1Slider_.setBounds(80, 0, 60, 400);

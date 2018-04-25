@@ -14,7 +14,7 @@
 //==============================================================================
 Gridlines::Gridlines()
 {
-	zoomRatio_ = 2.5f;
+	zoomRatio_ = 1.5f;
 	panAngle_ = 0;
 	speakerAngle_ = float_Pi / 4.0f;
 	speakerAngle2_ = -float_Pi / 4.0f;
@@ -111,11 +111,12 @@ void Gridlines::paint (Graphics& g)
 	// rotate so x is pointing up
 	uvTransform_ = uvTransform_.rotated(float_Pi * -0.5f);
 	// center the origin
-	uvTransform_ = uvTransform_.translated(cb.getHeight() * 0.5f, cb.getHeight() * 0.5f); 
+	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f); 
+	uvTransform_ = uvTransform_.translated(0.0f, cb.getHeight() * 0.45f);
 	g.addTransform(uvTransform_);
 	
 	//TODO make these options bools for the component
-	//DrawGridlines(g, zoomRatio_);
+	DrawGridlines(g, zoomRatio_);
 
 	g.setColour(Colours::wheat);
 	auto arc = Path();
@@ -135,20 +136,32 @@ void Gridlines::paint (Graphics& g)
 
 void Gridlines::DrawVectors(juce::Graphics & g)
 {
-	g.setColour(Colours::palegreen);
 
 	l11_ = cos(speakerAngle_);
 	l12_ = sin(speakerAngle_);
 	l21_ = cos(speakerAngle2_);
 	l22_ = sin(speakerAngle2_);
 
+	float speakerSize = 0.1f;
+
+	g.setColour(Colours::palegreen);
+	// draw left speaker
+	auto leftRect = Rectangle<float>(l11_ - speakerSize / 2.0f, l12_ - speakerSize / 2.0f, speakerSize, speakerSize);
+	//leftRect = leftRect.transformed(AffineTransform::rotation(speakerAngle_));
+	g.fillRoundedRectangle(leftRect,.01f);
 	g.drawArrow(Line<float>(0, 0, g1s_ * l11_, g1s_ * l12_), .02, ARROW_WIDTH, ARROW_LENGTH);
-	g.setColour(Colours::powderblue);
-	g.drawArrow(Line<float>(0, 0, g2s_ * l21_, g2s_ * l22_), .02, ARROW_WIDTH, ARROW_LENGTH);
 	
-	g.setColour(Colours::orange);
+	g.setColour(Colours::powderblue);
+	// draw right speaker
+	g.fillRoundedRectangle(l21_ - speakerSize / 2.0f, l22_ - speakerSize / 2.0f, speakerSize, speakerSize, .01f);
+	g.drawArrow(Line<float>(0, 0, g2s_ * l21_, g2s_ * l22_), .02, ARROW_WIDTH, ARROW_LENGTH);
+
 	p1_ = cos(panAngle_);
 	p2_ = sin(panAngle_);
+
+	g.setColour(Colours::orange);
+	// draw the sound source
+	g.fillRoundedRectangle(p1_ - speakerSize / 2.0f, p2_ - speakerSize / 2.0f, speakerSize, speakerSize, .01f);
 	g.drawArrow(Line<float>(0, 0, p1_, p2_), .02, ARROW_WIDTH, ARROW_LENGTH);
 }
 
@@ -212,11 +225,11 @@ void Gridlines::DrawGridlines(juce::Graphics & g, float zoomRatio)
 	float majorGridLineThickness = .005f; //TODO set these better
 	float minorGridLineThickness = .001f;
 
-	float width = zoomRatio * 0.5f;
+	float width = zoomRatio *3.0f;
 	auto horizontalLine = Line<float>(-width, 0, width, 0);
 	auto verticalLine = Line<float>(0, -width, 0, width);
 
-	int numberOfMajorLines = (int)zoomRatio + 1;
+	int numberOfMajorLines = (int)zoomRatio + 15;
 	
 	int numberOfMinorLines = juce::jmin( (int) (10 / zoomRatio), MAX_MINOR_GRIDLINES);
 

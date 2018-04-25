@@ -36,7 +36,7 @@
 // BEGIN SECTION A
 
 #ifndef JUCE_DISPLAY_SPLASH_SCREEN
- #define JUCE_DISPLAY_SPLASH_SCREEN 0
+ #define JUCE_DISPLAY_SPLASH_SCREEN 1
 #endif
 
 #ifndef JUCE_REPORT_APP_USAGE
@@ -357,7 +357,7 @@
  #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x50717638 // 'Pqv8'
+ #define JucePlugin_PluginCode             0x4e7a6573 // 'Nzes'
 #endif
 #ifndef  JucePlugin_IsSynth
  #define JucePlugin_IsSynth                0
