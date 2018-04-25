@@ -149,38 +149,35 @@ void Gridlines::DrawVectors(juce::Graphics & g)
 	l21_ = cos(speakerAngle2_);
 	l22_ = sin(speakerAngle2_);
 
-	auto speakerSize = 0.1f;
-	auto speakerRadius = speakerSize / 2.0f;
-	auto speakerOffset = 0.08f;
-
 	g.setColour(Colours::palegreen);
 	// draw left speaker
-	g.saveState();
-	g.addTransform(AffineTransform::translation(l11_ , l12_ ));
-	g.addTransform(AffineTransform::rotation(speakerAngle_));
-	g.fillRoundedRectangle(0.0f - speakerRadius+ speakerOffset, 0.0f - speakerRadius, speakerSize, speakerSize,.01f);
-	g.restoreState();
+	DrawSpeaker(g, speakerAngle_, l11_, l12_);
 	// draw left vector
-	g.drawArrow(Line<float>(0, 0, g1s_ * l11_, g1s_ * l12_), .02, ARROW_WIDTH, ARROW_LENGTH);
+	g.drawArrow(Line<float>(0, 0, g1s_ * l11_, g1s_ * l12_), .02f, ARROW_WIDTH, ARROW_LENGTH);
 	
 	g.setColour(Colours::powderblue);
 	// draw right speaker
-	g.saveState();
-	g.addTransform(AffineTransform::translation(l21_, l22_));
-	g.addTransform(AffineTransform::rotation(speakerAngle2_));
-	g.fillRoundedRectangle(0.0f - speakerRadius+ speakerOffset, 0.0f - speakerRadius, speakerSize, speakerSize, .01f);
-	g.restoreState();
+	DrawSpeaker(g, speakerAngle2_, l21_, l22_);
 	// draw right vector
-	g.drawArrow(Line<float>(0, 0, g2s_ * l21_, g2s_ * l22_), .02, ARROW_WIDTH, ARROW_LENGTH);
-	
+	g.drawArrow(Line<float>(0, 0, g2s_ * l21_, g2s_ * l22_), .02f, ARROW_WIDTH, ARROW_LENGTH);	
 
 	p1_ = cos(panAngle_);
 	p2_ = sin(panAngle_);
 
 	g.setColour(Colours::orange);
 	// draw the sound source
-	g.fillEllipse(p1_ - speakerSize / 2.0f, p2_ - speakerSize / 2.0f, speakerSize, speakerSize);
+	DrawSpeaker(g, panAngle_, p1_, p2_);
+	// draw sound vector
 	g.drawArrow(Line<float>(0, 0, p1_, p2_), .02, ARROW_WIDTH, ARROW_LENGTH);
+}
+
+void Gridlines::DrawSpeaker(juce::Graphics & g, float angle, float x, float y)
+{
+	g.saveState();
+	g.addTransform(AffineTransform::translation(x, y));
+	g.addTransform(AffineTransform::rotation(angle));
+	g.fillRoundedRectangle(0.0f - SPEAKER_RADIUS + SPEAKER_OFFSET, 0.0f - SPEAKER_RADIUS, SPEAKER_SIZE, SPEAKER_SIZE, .01f);
+	g.restoreState();
 }
 
 void Gridlines::DrawPolarGrid(juce::Graphics & g)

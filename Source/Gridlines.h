@@ -55,6 +55,7 @@ private:
 
 	void DrawSemicircle(juce::Graphics & g);
 	void DrawVectors(juce::Graphics & g);
+	void DrawSpeaker(juce::Graphics & g, float angle, float x, float y);
 	void DrawPolarGridCircles(juce::Graphics & g, int count);
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 	void DrawPolarGrid(juce::Graphics & g);
@@ -67,6 +68,10 @@ private:
 
 	const float CLICK_EPSILON = 0.75f;
 	const float MIN_SPEAKERANGLE = float_Pi / 36.0f;
+
+	const float SPEAKER_SIZE = 0.1f;
+	const float SPEAKER_RADIUS = SPEAKER_SIZE / 2.0f;
+	const float SPEAKER_OFFSET = 0.08f;
 
 	float zoomRatio_;
 	float panAngle_;
