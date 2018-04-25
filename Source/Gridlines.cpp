@@ -82,17 +82,15 @@ void Gridlines::mouseDrag(const MouseEvent& e)
 	}	
 	else if (clickedOn_ == positiveThetaVectorId) {
 		speakerAngle_ = clickAngle;
-		// clamp the angle
-		//speakerAngle_ = juce::jmax(speakerAngle_, MIN_SPEAKERANGLE);	// The speakers can't be in the same position
-		speakerAngle_ = juce::jmin(speakerAngle_, float_Pi*0.5f);		// < 90 degrees
-		speakerAngle_ = juce::jmax(speakerAngle_, panAngle_);			// > phi
+		// clamp the angle		
+		speakerAngle_ = juce::jmin(speakerAngle_, float_Pi*0.483333333333f);		// < 90 degrees
+		speakerAngle_ = juce::jmax(speakerAngle_, panAngle_ + 0.0872f);			// > phi
 	}
 	else if (clickedOn_ == negativeThetaVectorId) {
 		speakerAngle2_ = clickAngle;
-		// clamp the angle
-		//speakerAngle2_ = juce::jmin(speakerAngle2_, -MIN_SPEAKERANGLE);	// The speakers can't be in the same position
-		speakerAngle2_ = juce::jmax(speakerAngle2_, float_Pi*-0.5f);	// > -90 degrees
-		speakerAngle2_ = juce::jmin(speakerAngle2_, panAngle_);			// < phi
+		// clamp the angle		
+		speakerAngle2_ = juce::jmax(speakerAngle2_, float_Pi*-0.483333333333f);	// > -90 degrees
+		speakerAngle2_ = juce::jmin(speakerAngle2_, panAngle_ - 0.0872f);			// < phi
 	}
 	repaint();
 }
@@ -153,13 +151,14 @@ void Gridlines::DrawVectors(juce::Graphics & g)
 
 	auto speakerSize = 0.1f;
 	auto speakerRadius = speakerSize / 2.0f;
+	auto speakerOffset = 0.08f;
 
 	g.setColour(Colours::palegreen);
 	// draw left speaker
 	g.saveState();
 	g.addTransform(AffineTransform::translation(l11_ , l12_ ));
 	g.addTransform(AffineTransform::rotation(speakerAngle_));
-	g.fillRoundedRectangle(0.0f - speakerRadius, 0.0f - speakerRadius, speakerSize, speakerSize,.01f);
+	g.fillRoundedRectangle(0.0f - speakerRadius+ speakerOffset, 0.0f - speakerRadius, speakerSize, speakerSize,.01f);
 	g.restoreState();
 	// draw left vector
 	g.drawArrow(Line<float>(0, 0, g1s_ * l11_, g1s_ * l12_), .02, ARROW_WIDTH, ARROW_LENGTH);
@@ -169,7 +168,7 @@ void Gridlines::DrawVectors(juce::Graphics & g)
 	g.saveState();
 	g.addTransform(AffineTransform::translation(l21_, l22_));
 	g.addTransform(AffineTransform::rotation(speakerAngle2_));
-	g.fillRoundedRectangle(0.0f - speakerRadius, 0.0f - speakerRadius, speakerSize, speakerSize, .01f);
+	g.fillRoundedRectangle(0.0f - speakerRadius+ speakerOffset, 0.0f - speakerRadius, speakerSize, speakerSize, .01f);
 	g.restoreState();
 	// draw right vector
 	g.drawArrow(Line<float>(0, 0, g2s_ * l21_, g2s_ * l22_), .02, ARROW_WIDTH, ARROW_LENGTH);
