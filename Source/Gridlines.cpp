@@ -110,7 +110,6 @@ void Gridlines::paint (Graphics& g)
     g.setColour (Colours::white);
 	auto cb = g.getClipBounds();
 	float zoomFactor = 1.0f / zoomRatio_;
-
 	// transform into uv coords
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
 	// TODO don't do this negative scale
@@ -152,26 +151,36 @@ void Gridlines::DrawVectors(juce::Graphics & g)
 	l21_ = cos(speakerAngle2_);
 	l22_ = sin(speakerAngle2_);
 
-	float speakerSize = 0.1f;
+	auto speakerSize = 0.1f;
+	auto speakerRadius = speakerSize / 2.0f;
 
 	g.setColour(Colours::palegreen);
 	// draw left speaker
-	auto leftRect = Rectangle<float>(l11_ - speakerSize / 2.0f, l12_ - speakerSize / 2.0f, speakerSize, speakerSize);
-	//leftRect = leftRect.transformed(AffineTransform::rotation(speakerAngle_));
-	g.fillRoundedRectangle(leftRect,.01f);
+	g.saveState();
+	g.addTransform(AffineTransform::translation(l11_ , l12_ ));
+	g.addTransform(AffineTransform::rotation(speakerAngle_));
+	g.fillRoundedRectangle(0.0f - speakerRadius, 0.0f - speakerRadius, speakerSize, speakerSize,.01f);
+	g.restoreState();
+	// draw left vector
 	g.drawArrow(Line<float>(0, 0, g1s_ * l11_, g1s_ * l12_), .02, ARROW_WIDTH, ARROW_LENGTH);
 	
 	g.setColour(Colours::powderblue);
 	// draw right speaker
-	g.fillRoundedRectangle(l21_ - speakerSize / 2.0f, l22_ - speakerSize / 2.0f, speakerSize, speakerSize, .01f);
+	g.saveState();
+	g.addTransform(AffineTransform::translation(l21_, l22_));
+	g.addTransform(AffineTransform::rotation(speakerAngle2_));
+	g.fillRoundedRectangle(0.0f - speakerRadius, 0.0f - speakerRadius, speakerSize, speakerSize, .01f);
+	g.restoreState();
+	// draw right vector
 	g.drawArrow(Line<float>(0, 0, g2s_ * l21_, g2s_ * l22_), .02, ARROW_WIDTH, ARROW_LENGTH);
+	
 
 	p1_ = cos(panAngle_);
 	p2_ = sin(panAngle_);
 
 	g.setColour(Colours::orange);
 	// draw the sound source
-	g.fillRoundedRectangle(p1_ - speakerSize / 2.0f, p2_ - speakerSize / 2.0f, speakerSize, speakerSize, .01f);
+	g.fillEllipse(p1_ - speakerSize / 2.0f, p2_ - speakerSize / 2.0f, speakerSize, speakerSize);
 	g.drawArrow(Line<float>(0, 0, p1_, p2_), .02, ARROW_WIDTH, ARROW_LENGTH);
 }
 
