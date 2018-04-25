@@ -121,11 +121,11 @@ void Gridlines::paint (Graphics& g)
 	g.addTransform(uvTransform_);
 
 	//TODO make these options bools for the component
-	g.setColour(Colours::azure);
+	g.setColour(Colours::grey);
 	DrawGridlines(g, zoomRatio_);
-
-	g.setColour(Colours::azure);
 	DrawPolarGrid(g);
+
+	g.setColour(Colours::wheat);
 	DrawSemicircle(g);
 
 	DrawVectors(g);
@@ -186,8 +186,7 @@ void Gridlines::DrawPolarGrid(juce::Graphics & g)
 	DrawPolarGridCircles(g, 4);	
 	DrawPolarGridLines(g, 6, 0, polarLineTransform_, 15);	
 	DrawPolarGridLines(g, 6, 0, polarLineTransform_.inverted(), -15);
-
-	g.setColour(Colours::wheat);
+	
 }
 
 void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count, int currentRotation, AffineTransform rotationTransform, int rotationAmount)
@@ -205,6 +204,7 @@ void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count, int currentRot
 
 void Gridlines::DrawPolarDegreeText(juce::Graphics & g, int rotationAmount, int currentRotation)
 {
+	g.setColour(Colours::white);
 	g.setFont(.05f);
 	g.addTransform(AffineTransform::scale(1, -1));
 	auto textRotation = AffineTransform::rotation(float_Pi, 1.25f, 0);
