@@ -29,13 +29,11 @@ public:
 	void mouseWheelMove(const MouseEvent& e, const MouseWheelDetails& wheel) override;
 
     void paint (Graphics&) override;
-	void DrawVectors(juce::Graphics & g);
-	void DrawPolarGridCircles(juce::Graphics & g, int count);
     void resized() override;
 
-	// TODO getters, setters
-	float zoomRatio_;
-	float panAngle_;
+	void setZoomRatio(float newZoomRatio);
+	void setPanAngle(float newPanAngle);
+	float getPanAngle();
 
 	float g1s_;
 	float g2s_;
@@ -54,11 +52,12 @@ private:
 	float speakerAngle_;
 	float speakerAngle2_;
 
+	void DrawSemicircle(juce::Graphics & g);
+	void DrawVectors(juce::Graphics & g);
+	void DrawPolarGridCircles(juce::Graphics & g, int count);
 	void DrawGridlines(juce::Graphics & g, float zoomRatio);
 	void DrawPolarGrid(juce::Graphics & g);
-
 	void DrawPolarGridLines(juce::Graphics & g, int count, int currentRotation, AffineTransform rotationTransform, int rotationAmount);
-
 	void DrawPolarDegreeText(juce::Graphics & g, int rotationAmount, int currentRotation);
 
 	const int MAX_MINOR_GRIDLINES = 9;
@@ -67,6 +66,9 @@ private:
 
 	const float CLICK_EPSILON = 0.75f;
 	const float MIN_SPEAKERANGLE = float_Pi / 36.0f;
+
+	float zoomRatio_;
+	float panAngle_;
 
 	enum ClickableGraphObjects
 	{

@@ -15,14 +15,20 @@
 Gridlines::Gridlines()
 {
 	zoomRatio_ = 1.5f;
-	panAngle_ = 0;
+	panAngle_ = 0.0f;
 	speakerAngle_ = float_Pi / 4.0f;
 	speakerAngle2_ = -float_Pi / 4.0f;
 	radiusTransform_ = AffineTransform::scale(2);
 	polarLineTransform_ = AffineTransform::rotation(float_Pi/12.0f);
-	g1s_ = 1;
-	g2s_ = 1;
+	p1_ = 0.0f;
+	p2_ = 0.0f;
+	g1s_ = 1.0f;
+	g2s_ = 1.0f;
 	clickedOn_ = nothingId;
+	l11_ = 0.0f;
+	l12_ = 0.0f;
+	l21_ = 0.0f;
+	l22_ = 0.0f;
 }
 
 Gridlines::~Gridlines()
@@ -114,29 +120,31 @@ void Gridlines::paint (Graphics& g)
 	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f); 
 	uvTransform_ = uvTransform_.translated(0.0f, cb.getHeight() * 0.45f);
 	g.addTransform(uvTransform_);
-	
+
 	//TODO make these options bools for the component
+	g.setColour(Colours::azure);
 	DrawGridlines(g, zoomRatio_);
 
-	g.setColour(Colours::wheat);
-	auto arc = Path();
-	arc.addCentredArc(0, 0, 1, 1, 0, 0, float_Pi, true);
-	g.strokePath(arc, PathStrokeType(0.05f, PathStrokeType::beveled, PathStrokeType::butt));
-	
-	//g.fillEllipse(dragPoint_.x-0.05f, dragPoint_.y-0.05f, 0.1f, 0.1f);
-	DrawVectors(g);
-
-	g.setColour(Colours::white);
+	g.setColour(Colours::azure);
 	DrawPolarGrid(g);
+	DrawSemicircle(g);
+
+	DrawVectors(g);
 
 	g.addTransform(uvTransform_.inverted());
 	g.setColour(Colours::black);
 	g.drawRect(getLocalBounds(), 3);   // draw an outline around the component
 }
 
+void Gridlines::DrawSemicircle(juce::Graphics & g)
+{
+	auto arc = Path();
+	arc.addCentredArc(0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, float_Pi, true);
+	g.strokePath(arc, PathStrokeType(0.05f, PathStrokeType::beveled, PathStrokeType::butt));
+}
+
 void Gridlines::DrawVectors(juce::Graphics & g)
 {
-
 	l11_ = cos(speakerAngle_);
 	l12_ = sin(speakerAngle_);
 	l21_ = cos(speakerAngle2_);
@@ -167,9 +175,12 @@ void Gridlines::DrawVectors(juce::Graphics & g)
 
 void Gridlines::DrawPolarGrid(juce::Graphics & g)
 {
+
 	DrawPolarGridCircles(g, 4);	
 	DrawPolarGridLines(g, 6, 0, polarLineTransform_, 15);	
 	DrawPolarGridLines(g, 6, 0, polarLineTransform_.inverted(), -15);
+
+	g.setColour(Colours::wheat);
 }
 
 void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count, int currentRotation, AffineTransform rotationTransform, int rotationAmount)
@@ -178,12 +189,11 @@ void Gridlines::DrawPolarGridLines(juce::Graphics & g, int count, int currentRot
 		return;
 	auto polarLine = Line<float>(0, 0, 10, 0);
 	g.drawLine(polarLine, 0.002f);
-
+	g.saveState();
 	DrawPolarDegreeText(g, rotationAmount, currentRotation);
-
 	g.addTransform(rotationTransform); // push each transform on the stack
 	DrawPolarGridLines(g, count-1, currentRotation+ rotationAmount, rotationTransform, rotationAmount);
-	g.addTransform(rotationTransform.inverted()); // pop each transform off the stack
+	g.restoreState(); // pop each transform off the stack
 }
 
 void Gridlines::DrawPolarDegreeText(juce::Graphics & g, int rotationAmount, int currentRotation)
@@ -206,7 +216,7 @@ void Gridlines::DrawPolarGridCircles(juce::Graphics & g, int count)
 {	
 	if (count < 0) // base case
 		return;
-	g.drawEllipse(-.5, -.5, 1, 1, 0.0025f);	
+	g.drawEllipse(-.5f, -.5f, 1.0f, 1.0f, 0.0025f);	
 	g.addTransform(radiusTransform_); // push each transform on the stack
 	DrawPolarGridCircles(g, count-1);
 	g.addTransform(radiusTransform_.inverted()); // pop each transform off the stack
@@ -216,6 +226,21 @@ void Gridlines::resized()
 {
     // This method is where you should set the bounds of any child
     // components that your component contains..
+}
+
+void Gridlines::setZoomRatio(float newZoomRatio)
+{
+	zoomRatio_ = newZoomRatio;
+}
+
+void Gridlines::setPanAngle(float newPanAngle)
+{
+	panAngle_ = newPanAngle;
+}
+
+float Gridlines::getPanAngle()
+{
+	return panAngle_;
 }
 
 void Gridlines::DrawGridlines(juce::Graphics & g, float zoomRatio)
