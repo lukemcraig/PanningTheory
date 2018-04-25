@@ -46,6 +46,7 @@ public:
 	float l22_;
 
 private:
+	AffineTransform identityTransform_;
 	AffineTransform uvTransform_;
 	AffineTransform radiusTransform_;
 	AffineTransform polarLineTransform_;

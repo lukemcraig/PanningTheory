@@ -20,6 +20,8 @@ Gridlines::Gridlines()
 	speakerAngle2_ = -float_Pi / 4.0f;
 	radiusTransform_ = AffineTransform::scale(2);
 	polarLineTransform_ = AffineTransform::rotation(float_Pi/12.0f);
+	identityTransform_ = AffineTransform();
+	uvTransform_ = AffineTransform();
 	p1_ = 0.0f;
 	p2_ = 0.0f;
 	g1s_ = 1.0f;
@@ -110,15 +112,15 @@ void Gridlines::paint (Graphics& g)
 	float zoomFactor = 1.0f / zoomRatio_;
 
 	// transform into uv coords
-	uvTransform_ = AffineTransform();
 	// [0.0,height]-> [0.0,1.0], make positive y-axis point up
 	// TODO don't do this negative scale
-	uvTransform_ = uvTransform_.scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
+	uvTransform_ = identityTransform_.scaled(cb.getHeight() * zoomFactor, cb.getHeight() * -zoomFactor);
 	// rotate so x is pointing up
 	uvTransform_ = uvTransform_.rotated(float_Pi * -0.5f);
 	// center the origin
 	uvTransform_ = uvTransform_.translated(cb.getWidth() * 0.5f, cb.getHeight() * 0.5f); 
 	uvTransform_ = uvTransform_.translated(0.0f, cb.getHeight() * 0.45f);
+	g.saveState();
 	g.addTransform(uvTransform_);
 
 	//TODO make these options bools for the component
@@ -131,7 +133,7 @@ void Gridlines::paint (Graphics& g)
 
 	DrawVectors(g);
 
-	g.addTransform(uvTransform_.inverted());
+	g.restoreState();
 	g.setColour(Colours::black);
 	g.drawRect(getLocalBounds(), 3);   // draw an outline around the component
 }
@@ -217,9 +219,10 @@ void Gridlines::DrawPolarGridCircles(juce::Graphics & g, int count)
 	if (count < 0) // base case
 		return;
 	g.drawEllipse(-.5f, -.5f, 1.0f, 1.0f, 0.0025f);	
+	g.saveState();
 	g.addTransform(radiusTransform_); // push each transform on the stack
 	DrawPolarGridCircles(g, count-1);
-	g.addTransform(radiusTransform_.inverted()); // pop each transform off the stack
+	g.restoreState(); // pop each transform off the stack	
 }
 
 void Gridlines::resized()
