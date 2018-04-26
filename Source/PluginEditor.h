@@ -36,9 +36,14 @@ public:
 private:
 	void calculateGains();
 	void calculateScaledGains();
+	void toggleMode();
+	void setModeButtonText();
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     PanningTheoryAudioProcessor& processor;
+	TextButton subtractButton_;
+	bool subtractMode_;
+
 	Gridlines gridlines_;
 
 	MatrixRenderer LMatrixRenderer_;
@@ -46,19 +51,10 @@ private:
 	MatrixRenderer gainsMatrixRenderer_;
 	MatrixRenderer gainsScaledMatrixRenderer_;
 
-	//Slider panAngleSlider_;
-
-	/*Slider g1Slider_;
-	Slider g2Slider_;
-	Slider g1sSlider_;
-	Slider g2sSlider_;*/
-	//float panAngle_;
-
 	dsp::Matrix<float> p_ = dsp::Matrix<float>(1, 2);
 	dsp::Matrix<float> L_ = dsp::Matrix<float>(2, 2);
 	dsp::Matrix<float> gains_ = dsp::Matrix<float>(1, 2);
 	dsp::Matrix<float> gainsScaled_ = dsp::Matrix<float>(1, 2);
-
 
 	//File svgFile_;
 	//Drawable * svgdrawable_;
