@@ -164,7 +164,7 @@ void PanningTheoryAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
 			auto inLeft = channelData1[sample];
 			auto inRight = channelData2[sample];
 
-			auto output = (inLeft *g1s_) - (inRight *g2s_);			
+			auto output = (inLeft *g2s_) - (inRight *g1s_);
 
 			channelData1[sample] = output;
 			channelData2[sample] = output;
