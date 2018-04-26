@@ -130,6 +130,7 @@ void PanningTheoryAudioProcessorEditor::setModeButtonText()
 	else
 		getLookAndFeel().setColour(ResizableWindow::backgroundColourId, Colour::fromRGB(50,62,68));
 	repaint();
+	gridlines_.repaint();
 }
 
 void PanningTheoryAudioProcessorEditor::calculateGains() {
@@ -141,4 +142,9 @@ void PanningTheoryAudioProcessorEditor::calculateGains() {
 	inverseL(0, 1) *= -1;
 	inverseL(1, 0) *= -1;
 	gains_ = p_ * inverseDeterminant * inverseL;	
+	if (subtractMode_) {
+		gains_ = gains_.swapColumns(0, 1);
+		gains_(0, 1) *= -1;
+	}
+
 }
