@@ -147,18 +147,30 @@ void PanningTheoryAudioProcessor::processBlock (AudioBuffer<float>& buffer, Midi
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-	// TODO do this better
-    auto* channelData1 = buffer.getWritePointer (0);
-	for (int sample = 0; sample < numSamples; sample++)
-	{
-		channelData1[sample] *= g1s_;
+	auto* channelData1 = buffer.getWritePointer(0);
+	auto* channelData2 = buffer.getWritePointer(1);
+	if (!subtractMode_) {
+		// TODO do this better
+		for (int sample = 0; sample < numSamples; sample++)
+		{
+			channelData1[sample] *= g1s_;
+			channelData2[sample] *= g2s_;
+		}
 	}
 
-	auto* channelData2 = buffer.getWritePointer(1);
-	for (int sample = 0; sample < numSamples; sample++)
-	{
-		channelData2[sample] *= g2s_;
-	}   
+	else {
+		for (int sample = 0; sample < numSamples; sample++)
+		{
+			auto inLeft = channelData1[sample];
+			auto inRight = channelData2[sample];
+
+			auto output = (inLeft *g1s_) - (inRight *g2s_);			
+
+			channelData1[sample] = output;
+			channelData2[sample] = output;
+		}
+
+	}
 }
 
 //==============================================================================

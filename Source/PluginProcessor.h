@@ -58,6 +58,7 @@ public:
 	//TODO set and store these better
 	float g1s_;
 	float g2s_;
+	bool subtractMode_;
 
 private:
     //==============================================================================

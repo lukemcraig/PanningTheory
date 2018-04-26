@@ -16,7 +16,6 @@ PanningTheoryAudioProcessorEditor::PanningTheoryAudioProcessorEditor (PanningThe
     : AudioProcessorEditor (&p), processor (p)
 {
 	subtractMode_ = false;
-
     setSize (1000, 750);
 	setResizable(true, true);	
 	setResizeLimits(300, 250, 10000, 10000);
@@ -119,12 +118,13 @@ void PanningTheoryAudioProcessorEditor::calculateScaledGains() {
 void PanningTheoryAudioProcessorEditor::toggleMode()
 {
 	subtractMode_ = !subtractMode_;
+	processor.subtractMode_ = subtractMode_;
 	setModeButtonText();
 }
 
 void PanningTheoryAudioProcessorEditor::setModeButtonText()
 {
-	subtractButton_.setButtonText(subtractMode_ ? "Pan Mode" : "Remove Mode");
+	subtractButton_.setButtonText(subtractMode_ ? "Remove Mode" : "Pan Mode");
 	if(subtractMode_)
 		getLookAndFeel().setColour(ResizableWindow::backgroundColourId,Colour::fromRGB(56, 51, 37));
 	else
