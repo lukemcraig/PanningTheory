@@ -76,15 +76,6 @@ void PanningTheoryAudioProcessorEditor::resized()
 	
 	auto solutionRow = area;
 	gainsScaledMatrixRenderer_.setBounds(solutionRow.removeFromLeft(matrixRowElement).reduced(10.0f).reduced(20.0f, 40.0f));
-
-}
-
-void PanningTheoryAudioProcessorEditor::sliderValueChanged(Slider* slider)
-{
-	//if (slider == &panAngleSlider_) {
-	//	gridlines_.setPanAngle(degreesToRadians(panAngleSlider_.getValue()));		
-	//	gridlines_.repaint();
-	//}
 }
 
 void PanningTheoryAudioProcessorEditor::timerCallback()
@@ -134,6 +125,11 @@ void PanningTheoryAudioProcessorEditor::toggleMode()
 void PanningTheoryAudioProcessorEditor::setModeButtonText()
 {
 	subtractButton_.setButtonText(subtractMode_ ? "Pan Mode" : "Remove Mode");
+	if(subtractMode_)
+		getLookAndFeel().setColour(ResizableWindow::backgroundColourId,Colour::fromRGB(56, 51, 37));
+	else
+		getLookAndFeel().setColour(ResizableWindow::backgroundColourId, Colour::fromRGB(50,62,68));
+	repaint();
 }
 
 void PanningTheoryAudioProcessorEditor::calculateGains() {

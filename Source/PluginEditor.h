@@ -19,7 +19,7 @@
 /**
 */
 class PanningTheoryAudioProcessorEditor  : public AudioProcessorEditor,
-	public Slider::Listener, private Timer
+	private Timer
 {
 public:
     PanningTheoryAudioProcessorEditor (PanningTheoryAudioProcessor&);
@@ -30,7 +30,6 @@ public:
 	
     void resized() override;
 
-	void sliderValueChanged(Slider * slider);
 	void timerCallback() override;	
 
 private:
